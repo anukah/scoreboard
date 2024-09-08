@@ -10,6 +10,8 @@ export const ScoreProvider = ({ children }) => {
   const [teamBScore, setTeamBScore] = useState(0);
   const [teamAName, setTeamAName] = useState("Team A");
   const [teamBName, setTeamBName] = useState("Team B");
+  const [teamAFouls, setTeamAFouls] = useState(0);
+  const [teamBFouls, setTeamBFouls] = useState(0);
   const [currentQuarter, setCurrentQuarter] = useState("");
 
   // Sync state with localStorage
@@ -18,12 +20,16 @@ export const ScoreProvider = ({ children }) => {
     const storedTeamBScore = localStorage.getItem('teamBScore');
     const storedTeamAName = localStorage.getItem('teamAName');
     const storedTeamBName = localStorage.getItem('teamBName');
+    const storedTeamAFouls = localStorage.getItem('teamAFouls');
+    const storedTeamBFouls = localStorage.getItem('teamBFouls');
     const storedCurrentQuarter = localStorage.getItem('currentQuarter');
     
     if (storedTeamAScore) setTeamAScore(parseInt(storedTeamAScore, 10));
     if (storedTeamBScore) setTeamBScore(parseInt(storedTeamBScore, 10));
     if (storedTeamAName) setTeamAName(storedTeamAName);
     if (storedTeamBName) setTeamBName(storedTeamBName);
+    if (storedTeamAFouls) setTeamAFouls(parseInt(storedTeamAFouls, 10));
+    if (storedTeamBFouls) setTeamBFouls(parseInt(storedTeamBFouls, 10));
     if (storedCurrentQuarter) setCurrentQuarter(storedCurrentQuarter);
   }, []);
 
@@ -32,8 +38,10 @@ export const ScoreProvider = ({ children }) => {
     localStorage.setItem('teamBScore', teamBScore);
     localStorage.setItem('teamAName', teamAName);
     localStorage.setItem('teamBName', teamBName);
+    localStorage.setItem('teamAFouls', teamAFouls);
+    localStorage.setItem('teamBFouls', teamBFouls);
     localStorage.setItem('currentQuarter', currentQuarter);
-  }, [teamAScore, teamBScore, teamAName, teamBName, currentQuarter]);
+  }, [teamAScore, teamBScore, teamAName, teamBName, teamAFouls, teamBFouls, currentQuarter]);
 
   return (
     <ScoreContext.Provider 
@@ -46,6 +54,10 @@ export const ScoreProvider = ({ children }) => {
         setTeamAName, 
         teamBName, 
         setTeamBName,
+        teamAFouls, 
+        setTeamAFouls, 
+        teamBFouls, 
+        setTeamBFouls,
         currentQuarter,
         setCurrentQuarter 
       }}>

@@ -5,7 +5,21 @@ import { useScore } from '../context/StoreContext';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
-  const { teamAScore, setTeamAScore, teamBScore, setTeamBScore, teamAName, setTeamAName, teamBName, setTeamBName, setCurrentQuarter } = useScore();
+  const { 
+    teamAScore, 
+    setTeamAScore, 
+    teamBScore, 
+    setTeamBScore, 
+    teamAName, 
+    setTeamAName, 
+    teamBName, 
+    setTeamBName, 
+    teamAFouls, 
+    setTeamAFouls, 
+    teamBFouls, 
+    setTeamBFouls, 
+    setCurrentQuarter 
+  } = useScore();
 
   const handleTeamANameChange = (e) => {
     setTeamAName(e.target.value);
@@ -18,10 +32,12 @@ const Home = () => {
   const handleResetScores = () => {
     setTeamAScore(0);
     setTeamBScore(0);
+    setTeamAFouls(0);
+    setTeamBFouls(0);
   };
 
-  const handleSetQuarter = (Quarter) => {
-    setCurrentQuarter(Quarter);
+  const handleSetQuarter = (quarter) => {
+    setCurrentQuarter(quarter);
   };
 
   return (
@@ -35,7 +51,7 @@ const Home = () => {
             onChange={handleTeamANameChange}
             placeholder="Enter Team A Name"
           />
-          <h2>{teamAName}: {teamAScore}</h2>
+          <h2>{teamAName} Score: {teamAScore}</h2>
           <button
             className={styles.button}
             onClick={() => setTeamAScore(teamAScore + 1)}
@@ -49,6 +65,20 @@ const Home = () => {
           >
             - 
           </button>
+          <h2>{teamAName} Fouls: {teamAFouls}</h2>
+          <button
+            className={styles.button}
+            onClick={() => setTeamAFouls(teamAFouls + 1)}
+          >
+            Foul 
+          </button>
+          <button
+            className={styles.button}
+            onClick={() => setTeamAFouls(teamAFouls - 1)}
+            disabled={teamAFouls === 0}
+          >
+            Undo Foul 
+          </button>
         </div>
         <div className={styles.teamSection}>
           <input
@@ -57,7 +87,7 @@ const Home = () => {
             onChange={handleTeamBNameChange}
             placeholder="Enter Team B Name"
           />
-          <h2>{teamBName}: {teamBScore}</h2>
+          <h2>{teamBName} Score: {teamBScore}</h2>
           <button
             className={styles.button}
             onClick={() => setTeamBScore(teamBScore + 1)}
@@ -71,16 +101,30 @@ const Home = () => {
           >
             - 
           </button>
+          <h2>{teamBName} Fouls: {teamBFouls}</h2>
+          <button
+            className={styles.button}
+            onClick={() => setTeamBFouls(teamBFouls + 1)}
+          >
+            Foul 
+          </button>
+          <button
+            className={styles.button}
+            onClick={() => setTeamBFouls(teamBFouls - 1)}
+            disabled={teamBFouls === 0}
+          >
+            Undo Foul 
+          </button>
         </div>
         <div className={styles.resetSection}>
           <button
             className={styles.button}
             onClick={handleResetScores}
           >
-            Reset Scores
+            Reset Scores and Fouls
           </button>
         </div>
-        <div className={styles.QuarterSection}>
+        <div className={styles.quarterSection}>
           <button className={styles.button} onClick={() => handleSetQuarter("Q1")}>Q1</button>
           <button className={styles.button} onClick={() => handleSetQuarter("Q2")}>Q2</button>
           <button className={styles.button} onClick={() => handleSetQuarter("Q3")}>Q3</button>
