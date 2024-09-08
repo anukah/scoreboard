@@ -1,95 +1,51 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import React from 'react';
+import { useScore } from '../context/StoreContext';
+import styles from '../styles/Home.module.css';
+
+const Home = () => {
+  const { teamAScore, setTeamAScore, teamBScore, setTeamBScore } = useScore();
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className={styles.container}>
+      <h1 className={styles.header}>Control Panel</h1>
+      <div className={styles.controlSection}>
+        <div className={styles.teamSection}>
+          <h2>Team A: {teamAScore}</h2>
+          <button
+            className={styles.button}
+            onClick={() => setTeamAScore(teamAScore + 1)}
           >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
+            + Team A
+          </button>
+          <button
+            className={styles.button}
+            onClick={() => setTeamAScore(teamAScore - 1)}
+            disabled={teamAScore === 0}
           >
-            Read our docs
-          </a>
+            - Team A
+          </button>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className={styles.teamSection}>
+          <h2>Team B: {teamBScore}</h2>
+          <button
+            className={styles.button}
+            onClick={() => setTeamBScore(teamBScore + 1)}
+          >
+            + Team B
+          </button>
+          <button
+            className={styles.button}
+            onClick={() => setTeamBScore(teamBScore - 1)}
+            disabled={teamBScore === 0}
+          >
+            - Team B
+          </button>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
