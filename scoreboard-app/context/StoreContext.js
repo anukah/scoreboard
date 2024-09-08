@@ -27,8 +27,15 @@ export const ScoreProvider = ({ children }) => {
     localStorage.setItem('teamBScore', teamBScore);
   }, [teamAScore, teamBScore]);
 
+  const resetScores = () => {
+    setTeamAScore(0);
+    setTeamBScore(0);
+    localStorage.setItem('teamAScore', 0);
+    localStorage.setItem('teamBScore', 0);
+  };
+
   return (
-    <ScoreContext.Provider value={{ teamAScore, setTeamAScore, teamBScore, setTeamBScore }}>
+    <ScoreContext.Provider value={{ teamAScore, setTeamAScore, teamBScore, setTeamBScore, resetScores }}>
       {children}
     </ScoreContext.Provider>
   );

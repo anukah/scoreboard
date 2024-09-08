@@ -5,7 +5,7 @@ import { useScore } from '../context/StoreContext';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
-  const { teamAScore, setTeamAScore, teamBScore, setTeamBScore } = useScore();
+  const { teamAScore, setTeamAScore, teamBScore, setTeamBScore, resetScores } = useScore();
 
   return (
     <div className={styles.container}>
@@ -41,6 +41,14 @@ const Home = () => {
             disabled={teamBScore === 0}
           >
             - Team B
+          </button>
+        </div>
+        <div className={styles.resetSection}>
+          <button
+            className={styles.button}
+            onClick={resetScores}
+          >
+            Reset Scores
           </button>
         </div>
       </div>
