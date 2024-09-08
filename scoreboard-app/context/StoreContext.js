@@ -13,6 +13,7 @@ export const ScoreProvider = ({ children }) => {
   const [teamAFouls, setTeamAFouls] = useState(0);
   const [teamBFouls, setTeamBFouls] = useState(0);
   const [currentQuarter, setCurrentQuarter] = useState("");
+  const [currentTime, setCurrentTime] = useState("00:00"); // Add currentTime state
 
   // Sync state with localStorage
   useEffect(() => {
@@ -23,6 +24,7 @@ export const ScoreProvider = ({ children }) => {
     const storedTeamAFouls = localStorage.getItem('teamAFouls');
     const storedTeamBFouls = localStorage.getItem('teamBFouls');
     const storedCurrentQuarter = localStorage.getItem('currentQuarter');
+    const storedCurrentTime = localStorage.getItem('currentTime'); // Fetch stored currentTime
     
     if (storedTeamAScore) setTeamAScore(parseInt(storedTeamAScore, 10));
     if (storedTeamBScore) setTeamBScore(parseInt(storedTeamBScore, 10));
@@ -31,6 +33,7 @@ export const ScoreProvider = ({ children }) => {
     if (storedTeamAFouls) setTeamAFouls(parseInt(storedTeamAFouls, 10));
     if (storedTeamBFouls) setTeamBFouls(parseInt(storedTeamBFouls, 10));
     if (storedCurrentQuarter) setCurrentQuarter(storedCurrentQuarter);
+    if (storedCurrentTime) setCurrentTime(storedCurrentTime); // Set currentTime
   }, []);
 
   useEffect(() => {
@@ -41,7 +44,8 @@ export const ScoreProvider = ({ children }) => {
     localStorage.setItem('teamAFouls', teamAFouls);
     localStorage.setItem('teamBFouls', teamBFouls);
     localStorage.setItem('currentQuarter', currentQuarter);
-  }, [teamAScore, teamBScore, teamAName, teamBName, teamAFouls, teamBFouls, currentQuarter]);
+    localStorage.setItem('currentTime', currentTime); // Save currentTime
+  }, [teamAScore, teamBScore, teamAName, teamBName, teamAFouls, teamBFouls, currentQuarter, currentTime]);
 
   return (
     <ScoreContext.Provider 
@@ -59,7 +63,9 @@ export const ScoreProvider = ({ children }) => {
         teamBFouls, 
         setTeamBFouls,
         currentQuarter,
-        setCurrentQuarter 
+        setCurrentQuarter,
+        currentTime,  // Provide currentTime
+        setCurrentTime // Provide setCurrentTime
       }}>
       {children}
     </ScoreContext.Provider>

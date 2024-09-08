@@ -12,7 +12,8 @@ const Score = () => {
     teamBName, 
     teamAFouls, 
     teamBFouls, 
-    currentQuarter 
+    currentQuarter,
+    currentTime
   } = useScore();
   
   const [localTeamAScore, setLocalTeamAScore] = useState(teamAScore);
@@ -22,6 +23,7 @@ const Score = () => {
   const [localTeamAFouls, setLocalTeamAFouls] = useState(teamAFouls);
   const [localTeamBFouls, setLocalTeamBFouls] = useState(teamBFouls);
   const [localCurrentQuarter, setLocalCurrentQuarter] = useState(currentQuarter);
+  const [localCurrentTime, setLocalCurrentTime] = useState(currentTime);
 
   useEffect(() => {
     setLocalTeamAScore(teamAScore);
@@ -31,6 +33,7 @@ const Score = () => {
     setLocalTeamAFouls(teamAFouls);
     setLocalTeamBFouls(teamBFouls);
     setLocalCurrentQuarter(currentQuarter);
+    setLocalCurrentTime(currentTime);
 
     const handleStorageChange = (event) => {
       if (event.key === 'teamAScore') {
@@ -54,6 +57,9 @@ const Score = () => {
       if (event.key === 'currentQuarter') {
         setLocalCurrentQuarter(event.newValue || "");
       }
+      if (event.key === 'currentTime') {
+        setLocalCurrentTime(event.newValue || "00:00");
+      }
     };
 
     window.addEventListener('storage', handleStorageChange);
@@ -61,17 +67,24 @@ const Score = () => {
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [teamAScore, teamBScore, teamAName, teamBName, teamAFouls, teamBFouls, currentQuarter]);
+  }, [teamAScore, teamBScore, teamAName, teamBName, teamAFouls, teamBFouls, currentQuarter, currentTime]);
 
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Scoreboard</h1>
       <div className={styles.scoreSection}>
-        <h2>{localTeamAName} Score: {localTeamAScore}</h2>
-        <h2>{localTeamAName} Fouls: {localTeamAFouls}</h2>
-        <h2>{localTeamBName} Score: {localTeamBScore}</h2>
-        <h2>{localTeamBName} Fouls: {localTeamBFouls}</h2>
-        <h2>Current Quarter: {localCurrentQuarter}</h2>
+        <h2>{localTeamAName}: {localTeamAScore}</h2>
+        <h2>Fouls: {localTeamAFouls}</h2>
+      </div>
+      <div className={styles.scoreSection}>
+        <h2>{localTeamBName}: {localTeamBScore}</h2>
+        <h2>Fouls: {localTeamBFouls}</h2>
+      </div>
+      <div className={styles.quarterSection}>
+        <h2>Quarter: {localCurrentQuarter}</h2>
+      </div>
+      <div className={styles.timerSection}>
+        <h2>Time: {localCurrentTime}</h2>
       </div>
     </div>
   );

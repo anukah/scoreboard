@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useScore } from '../context/StoreContext';
 import styles from '../styles/Home.module.css';
 
@@ -18,8 +18,45 @@ const Home = () => {
     setTeamAFouls, 
     teamBFouls, 
     setTeamBFouls, 
-    setCurrentQuarter 
+    setCurrentQuarter, 
+    setCurrentTime 
   } = useScore();
+
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [timer, setTimer] = useState(0); // Timer in seconds
+
+  useEffect(() => {
+    let interval;
+
+    if (isTimerRunning) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev + 1);
+      }, 1000);
+    } else if (!isTimerRunning && timer !== 0) {
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [isTimerRunning, timer]);
+
+  const handleStartStop = () => {
+    setIsTimerRunning((prev) => !prev);
+  };
+
+  const handleReset = () => {
+    setIsTimerRunning(false);
+    setTimer(0);
+  };
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
+
+  useEffect(() => {
+    setCurrentTime(formatTime(timer));
+  }, [timer, setCurrentTime]);
 
   const handleTeamANameChange = (e) => {
     setTeamAName(e.target.value);
@@ -129,6 +166,15 @@ const Home = () => {
           <button className={styles.button} onClick={() => handleSetQuarter("Q2")}>Q2</button>
           <button className={styles.button} onClick={() => handleSetQuarter("Q3")}>Q3</button>
           <button className={styles.button} onClick={() => handleSetQuarter("Q4")}>Q4</button>
+        </div>
+        <div className={styles.timerSection}>
+          <h2>Timer: {formatTime(timer)}</h2>
+          <button className={styles.button} onClick={handleStartStop}>
+            {isTimerRunning ? 'Stop' : 'Start'}
+          </button>
+          <button className={styles.button} onClick={handleReset}>
+            Reset
+          </button>
         </div>
       </div>
     </div>
