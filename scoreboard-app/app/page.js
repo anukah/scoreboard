@@ -19,7 +19,9 @@ const Home = () => {
     teamBFouls, 
     setTeamBFouls, 
     setCurrentQuarter, 
-    setCurrentTime 
+    setCurrentTime,
+    round,
+    setRound
   } = useScore();
 
   const [isTimerRunning, setIsTimerRunning] = useState(false);
@@ -30,7 +32,7 @@ const Home = () => {
 
     if (isTimerRunning) {
       interval = setInterval(() => {
-        setTimer((prev) => prev + 1);
+        setTimer(prev => prev + 1);
       }, 1000);
     } else if (!isTimerRunning && timer !== 0) {
       clearInterval(interval);
@@ -40,7 +42,7 @@ const Home = () => {
   }, [isTimerRunning, timer]);
 
   const handleStartStop = () => {
-    setIsTimerRunning((prev) => !prev);
+    setIsTimerRunning(prev => !prev);
   };
 
   const handleReset = () => {
@@ -66,6 +68,10 @@ const Home = () => {
     setTeamBName(e.target.value);
   };
 
+  const handleRoundChange = (e) => {
+    setRound(e.target.value);
+  };
+
   const handleResetScores = () => {
     setTeamAScore(0);
     setTeamBScore(0);
@@ -87,6 +93,7 @@ const Home = () => {
             value={teamAName}
             onChange={handleTeamANameChange}
             placeholder="Enter Team A Name"
+            className={styles.input}
           />
           <h2>{teamAName} Score: {teamAScore}</h2>
           <button
@@ -123,6 +130,7 @@ const Home = () => {
             value={teamBName}
             onChange={handleTeamBNameChange}
             placeholder="Enter Team B Name"
+            className={styles.input}
           />
           <h2>{teamBName} Score: {teamBScore}</h2>
           <button
@@ -175,6 +183,15 @@ const Home = () => {
           <button className={styles.button} onClick={handleReset}>
             Reset
           </button>
+        </div>
+        <div className={styles.roundSection}>
+          <input
+            type="text"
+            value={round}
+            onChange={handleRoundChange}
+            placeholder="Enter the Round"
+            className={styles.input}
+          />
         </div>
       </div>
     </div>

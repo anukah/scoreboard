@@ -13,7 +13,8 @@ const Score = () => {
     teamAFouls, 
     teamBFouls, 
     currentQuarter,
-    currentTime
+    currentTime,
+    currentRound
   } = useScore();
   
   const [localTeamAScore, setLocalTeamAScore] = useState(teamAScore);
@@ -24,6 +25,7 @@ const Score = () => {
   const [localTeamBFouls, setLocalTeamBFouls] = useState(teamBFouls);
   const [localCurrentQuarter, setLocalCurrentQuarter] = useState(currentQuarter);
   const [localCurrentTime, setLocalCurrentTime] = useState(currentTime);
+  const [localCurrentRound, setLocalCurrentRound] = useState(currentRound);
 
   useEffect(() => {
     setLocalTeamAScore(teamAScore);
@@ -34,7 +36,10 @@ const Score = () => {
     setLocalTeamBFouls(teamBFouls);
     setLocalCurrentQuarter(currentQuarter);
     setLocalCurrentTime(currentTime);
+    setLocalCurrentRound(currentRound);
+  }, [teamAScore, teamBScore, teamAName, teamBName, teamAFouls, teamBFouls, currentQuarter, currentTime, currentRound]);
 
+  useEffect(() => {
     const handleStorageChange = (event) => {
       if (event.key === 'teamAScore') {
         setLocalTeamAScore(parseInt(event.newValue, 10) || 0);
@@ -60,6 +65,9 @@ const Score = () => {
       if (event.key === 'currentTime') {
         setLocalCurrentTime(event.newValue || "00:00");
       }
+      if (event.key === 'currentRound') {
+        setLocalCurrentRound(event.newValue || "");
+      }
     };
 
     window.addEventListener('storage', handleStorageChange);
@@ -67,7 +75,7 @@ const Score = () => {
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [teamAScore, teamBScore, teamAName, teamBName, teamAFouls, teamBFouls, currentQuarter, currentTime]);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -85,6 +93,9 @@ const Score = () => {
       </div>
       <div className={styles.timerSection}>
         <h2>Time: {localCurrentTime}</h2>
+      </div>
+      <div className={styles.roundSection}>
+        <h2>Round: {localCurrentRound}</h2>
       </div>
     </div>
   );
