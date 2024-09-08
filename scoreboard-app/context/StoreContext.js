@@ -8,11 +8,13 @@ const ScoreContext = createContext();
 export const ScoreProvider = ({ children }) => {
   const [teamAScore, setTeamAScore] = useState(0);
   const [teamBScore, setTeamBScore] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(""); // Add this state
 
-  // Sync score state with localStorage
+  // Sync score and question state with localStorage
   useEffect(() => {
     const storedTeamAScore = localStorage.getItem('teamAScore');
     const storedTeamBScore = localStorage.getItem('teamBScore');
+    const storedQuestion = localStorage.getItem('currentQuestion');
     
     if (storedTeamAScore) {
       setTeamAScore(parseInt(storedTeamAScore, 10));
@@ -20,22 +22,19 @@ export const ScoreProvider = ({ children }) => {
     if (storedTeamBScore) {
       setTeamBScore(parseInt(storedTeamBScore, 10));
     }
+    if (storedQuestion) {
+      setCurrentQuestion(storedQuestion);
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('teamAScore', teamAScore);
     localStorage.setItem('teamBScore', teamBScore);
-  }, [teamAScore, teamBScore]);
-
-  const resetScores = () => {
-    setTeamAScore(0);
-    setTeamBScore(0);
-    localStorage.setItem('teamAScore', 0);
-    localStorage.setItem('teamBScore', 0);
-  };
+    localStorage.setItem('currentQuestion', currentQuestion);
+  }, [teamAScore, teamBScore, currentQuestion]);
 
   return (
-    <ScoreContext.Provider value={{ teamAScore, setTeamAScore, teamBScore, setTeamBScore, resetScores }}>
+    <ScoreContext.Provider value={{ teamAScore, setTeamAScore, teamBScore, setTeamBScore, currentQuestion, setCurrentQuestion }}>
       {children}
     </ScoreContext.Provider>
   );

@@ -5,7 +5,11 @@ import { useScore } from '../context/StoreContext';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
-  const { teamAScore, setTeamAScore, teamBScore, setTeamBScore, resetScores } = useScore();
+  const { teamAScore, setTeamAScore, teamBScore, setTeamBScore, setCurrentQuestion } = useScore();
+
+  const handleQuestionClick = (question) => {
+    setCurrentQuestion(question);
+  };
 
   return (
     <div className={styles.container}>
@@ -43,12 +47,18 @@ const Home = () => {
             - Team B
           </button>
         </div>
-        <div className={styles.resetSection}>
-          <button
-            className={styles.button}
-            onClick={resetScores}
-          >
-            Reset Scores
+        <div className={styles.questionSection}>
+          <button className={styles.button} onClick={() => handleQuestionClick('Q1')}>
+            Q1
+          </button>
+          <button className={styles.button} onClick={() => handleQuestionClick('Q2')}>
+            Q2
+          </button>
+          <button className={styles.button} onClick={() => handleQuestionClick('Q3')}>
+            Q3
+          </button>
+          <button className={styles.button} onClick={() => handleQuestionClick('Q4')}>
+            Q4
           </button>
         </div>
       </div>
