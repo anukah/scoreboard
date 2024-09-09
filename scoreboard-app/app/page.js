@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useScore } from '../context/StoreContext';
-import { Button, Card, CardContent, TextField, Grid2, Typography } from '@mui/material';
+import { Button, Card, CardContent, TextField, Grid2, Typography, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 const Home = () => {
   const { 
@@ -25,6 +25,7 @@ const Home = () => {
 
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timer, setTimer] = useState(0); // Timer in seconds
+  const [selectedQuarter, setSelectedQuarter] = useState('Q1');
 
   useEffect(() => {
     let interval;
@@ -78,8 +79,11 @@ const Home = () => {
     setTeamBFouls(0);
   };
 
-  const handleSetQuarter = (quarter) => {
-    setCurrentQuarter(quarter);
+  const handleQuarterChange = (event, newQuarter) => {
+    if (newQuarter !== null) {
+      setSelectedQuarter(newQuarter);
+      setCurrentQuarter(newQuarter);
+    }
   };
   return(
   <div className="p-8 max-w-4xl mx-auto">
@@ -195,20 +199,19 @@ const Home = () => {
           </Button>
         </Grid2>
         
-        {/* Quarter Buttons */}
-        <Grid2 item xs={12} container spacing={2}>
-          <Grid2 item xs={3}>
-            <Button variant="outlined" onClick={() => handleSetQuarter("Q1")} fullWidth>Q1</Button>
-          </Grid2>
-          <Grid2 item xs={3}>
-            <Button variant="outlined" onClick={() => handleSetQuarter("Q2")} fullWidth>Q2</Button>
-          </Grid2>
-          <Grid2 item xs={3}>
-            <Button variant="outlined" onClick={() => handleSetQuarter("Q3")} fullWidth>Q3</Button>
-          </Grid2>
-          <Grid2 item xs={3}>
-            <Button variant="outlined" onClick={() => handleSetQuarter("Q4")} fullWidth>Q4</Button>
-          </Grid2>
+        {/* Quarter Toggle Button Group */}
+        <Grid2 item xs={12}>
+          <ToggleButtonGroup
+            value={selectedQuarter}
+            exclusive
+            onChange={handleQuarterChange}
+            fullWidth
+          >
+            <ToggleButton value="Q1">Q1</ToggleButton>
+            <ToggleButton value="Q2">Q2</ToggleButton>
+            <ToggleButton value="Q3">Q3</ToggleButton>
+            <ToggleButton value="Q4">Q4</ToggleButton>
+          </ToggleButtonGroup>
         </Grid2>
         
         {/* Timer and Control */}
