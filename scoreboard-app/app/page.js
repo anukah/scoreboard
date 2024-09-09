@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useScore } from '../context/StoreContext';
-import { Button, Card, CardContent, TextField, Grid2, Typography, ToggleButton, ToggleButtonGroup } from '@mui/material';
-
+import { Button, Card, CardContent, TextField, Typography, ToggleButton, ToggleButtonGroup, Grid2} from '@mui/material';
 const Home = () => {
   const { 
     teamAScore, 
@@ -85,8 +84,9 @@ const Home = () => {
       setCurrentQuarter(newQuarter);
     }
   };
-  return(
-  <div className="p-8 max-w-4xl mx-auto">
+
+  return (
+    <div className="p-8 max-w-4xl mx-auto">
       <Typography variant="h3" component="h1" gutterBottom>
         Control Panel
       </Typography>
