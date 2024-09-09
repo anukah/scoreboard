@@ -1,0 +1,73 @@
+/* Container for the scoreboard */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full height of the viewport */
+    width: 100vw;
+    padding: 20px;
+    background-color: #f0f0f0; /* Light gray background for the container */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  /* Flexbox layout for the two teams side by side */
+  .scoreSectionContainer {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 800px; /* Adjust width to your preference */
+    background-color: #e0e0e0; /* Slightly darker gray to distinguish the section */
+  }
+  
+  /* Section for each team's score and fouls */
+  .scoreSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    background-color: #d0d0d0; /* Even darker gray for individual team sections */
+  }
+  
+  .scoreSection h2 {
+    font-size: 3.5rem; /* Large font size for team names */
+    font-weight: bold;
+    color: #000000; /* Black text for contrast */
+    margin-bottom: 10px;
+    background-color: #ffcccc; /* Light red background to highlight the team name */
+  }
+  
+  .scoreSection h3 {
+    font-size: 25rem; /* Larger font size for the score */
+    font-weight: bold;
+    color: #000000; /* Black color for the score */
+    margin-top: 20px;
+    background-color: #ccccff; /* Light blue background to highlight the score */
+  }
+  
+  /* Style for fouls */
+  .scoreSection p {
+    font-size: 3rem; /* Font size for fouls */
+    color: #555555; /* Dark gray color for fouls text */
+    margin-top: 10px;
+    background-color: #ccffcc; /* Light green background for fouls */
+  }
+  
+  /* Section for displaying the quarter, time, and round */
+  .quarterSection, .timerSection, .roundSection {
+    font-size: 3rem; /* Large font size for visibility */
+    font-weight: bold;
+    color: #000000; /* Black text for contrast */
+    margin-bottom: 20px;
+    margin-top: -20px;
+    text-align: center;
+    background-color: #ffffcc; /* Light yellow background for quarter, time, and round */
+  }
+  
+  .timerSection {
+    margin-bottom: -10px;
+    background-color: #ffccff; /* Light pink background for the timer section */
+  }
+  

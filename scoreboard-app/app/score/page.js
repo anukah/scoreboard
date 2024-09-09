@@ -79,23 +79,26 @@ const Score = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Scoreboard</h1>
-      <div className={styles.scoreSection}>
-        <h2>{localTeamAName}: {localTeamAScore}</h2>
-        <h2>Fouls: {localTeamAFouls}</h2>
-      </div>
-      <div className={styles.scoreSection}>
-        <h2>{localTeamBName}: {localTeamBScore}</h2>
-        <h2>Fouls: {localTeamBFouls}</h2>
-      </div>
-      <div className={styles.quarterSection}>
-        <h2>Quarter: {localCurrentQuarter}</h2>
+      <div className={styles.roundSection}>
+        <h2>{localCurrentRound}</h2>
       </div>
       <div className={styles.timerSection}>
         <h2>Time: {localCurrentTime}</h2>
       </div>
-      <div className={styles.roundSection}>
-        <h2>Round: {localCurrentRound}</h2>
+      <div className={styles.scoreSectionContainer}>
+        <div className={styles.scoreSection}>
+          <h2>{localTeamAName}</h2>
+          <h3>{localTeamAScore}</h3>
+          <p>Fouls: {localTeamAFouls}</p>
+        </div>
+        <div className={styles.scoreSection}>
+          <h2>{localTeamBName}</h2>
+          <h3>{localTeamBScore}</h3>
+          <p>Fouls: {localTeamBFouls}</p>
+        </div>
+      </div>
+      <div className={styles.quarterSection}>
+        <h2>Quarter: {localCurrentQuarter}</h2>
       </div>
     </div>
   );

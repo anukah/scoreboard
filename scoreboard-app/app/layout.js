@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScoreProvider } from '../context/StoreContext';
+import '../styles/globals.css'
 
 const RootLayout = ({ children }) => {
   return (

@@ -1,8 +1,7 @@
 "use client";
-
 import React, { useState, useEffect } from 'react';
 import { useScore } from '../context/StoreContext';
-import styles from '../styles/Home.module.css';
+import { Button, Card, CardContent, TextField, Grid2, Typography } from '@mui/material';
 
 const Home = () => {
   const { 
@@ -82,118 +81,149 @@ const Home = () => {
   const handleSetQuarter = (quarter) => {
     setCurrentQuarter(quarter);
   };
-
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.header}>Control Panel</h1>
-      <div className={styles.controlSection}>
-        <div className={styles.teamSection}>
-          <input
-            type="text"
-            value={teamAName}
-            onChange={handleTeamANameChange}
-            placeholder="Enter Team A Name"
-            className={styles.input}
-          />
-          <h2>{teamAName} Score: {teamAScore}</h2>
-          <button
-            className={styles.button}
-            onClick={() => setTeamAScore(teamAScore + 1)}
-          >
-            + 
-          </button>
-          <button
-            className={styles.button}
-            onClick={() => setTeamAScore(teamAScore - 1)}
-            disabled={teamAScore === 0}
-          >
-            - 
-          </button>
-          <h2>{teamAName} Fouls: {teamAFouls}</h2>
-          <button
-            className={styles.button}
-            onClick={() => setTeamAFouls(teamAFouls + 1)}
-          >
-            Foul 
-          </button>
-          <button
-            className={styles.button}
-            onClick={() => setTeamAFouls(teamAFouls - 1)}
-            disabled={teamAFouls === 0}
-          >
-            Undo Foul 
-          </button>
-        </div>
-        <div className={styles.teamSection}>
-          <input
-            type="text"
-            value={teamBName}
-            onChange={handleTeamBNameChange}
-            placeholder="Enter Team B Name"
-            className={styles.input}
-          />
-          <h2>{teamBName} Score: {teamBScore}</h2>
-          <button
-            className={styles.button}
-            onClick={() => setTeamBScore(teamBScore + 1)}
-          >
-            + 
-          </button>
-          <button
-            className={styles.button}
-            onClick={() => setTeamBScore(teamBScore - 1)}
-            disabled={teamBScore === 0}
-          >
-            - 
-          </button>
-          <h2>{teamBName} Fouls: {teamBFouls}</h2>
-          <button
-            className={styles.button}
-            onClick={() => setTeamBFouls(teamBFouls + 1)}
-          >
-            Foul 
-          </button>
-          <button
-            className={styles.button}
-            onClick={() => setTeamBFouls(teamBFouls - 1)}
-            disabled={teamBFouls === 0}
-          >
-            Undo Foul 
-          </button>
-        </div>
-        <div className={styles.resetSection}>
-          <button
-            className={styles.button}
-            onClick={handleResetScores}
-          >
-            Reset Scores and Fouls
-          </button>
-        </div>
-        <div className={styles.quarterSection}>
-          <button className={styles.button} onClick={() => handleSetQuarter("Q1")}>Q1</button>
-          <button className={styles.button} onClick={() => handleSetQuarter("Q2")}>Q2</button>
-          <button className={styles.button} onClick={() => handleSetQuarter("Q3")}>Q3</button>
-          <button className={styles.button} onClick={() => handleSetQuarter("Q4")}>Q4</button>
-        </div>
-        <div className={styles.timerSection}>
-          <h2>Timer: {formatTime(timer)}</h2>
-          <button className={styles.button} onClick={handleStartStop}>
-            {isTimerRunning ? 'Stop' : 'Start'}
-          </button>
-          <button className={styles.button} onClick={handleReset}>
-            Reset
-          </button>
-        </div>
-        <div className={styles.roundSection}>
-          <input
-            type="text"
+  return(
+  <div className="p-8 max-w-4xl mx-auto">
+      <Typography variant="h3" component="h1" gutterBottom>
+        Control Panel
+      </Typography>
+      <Grid2 container spacing={4}>
+        {/* Round Input */}
+        <Grid2 item xs={12}>
+          <TextField
+            label="Round"
             value={round}
             onChange={handleRoundChange}
-            placeholder="Enter the Round"
-            className={styles.input}
+            fullWidth
+            margin="normal"
           />
-        </div>
-      </div>
+        </Grid2>
+        {/* Team A Card */}
+        <Grid2 item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <TextField
+                label="Team A Name"
+                value={teamAName}
+                onChange={handleTeamANameChange}
+                fullWidth
+                margin="normal"
+              />
+              <Typography variant="h5" gutterBottom>{teamAName} Score: {teamAScore}</Typography>
+              <Button variant="contained" color="primary" onClick={() => setTeamAScore(teamAScore + 1)} fullWidth>
+                +
+              </Button>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={() => setTeamAScore(teamAScore - 1)} 
+                disabled={teamAScore === 0} 
+                fullWidth 
+                sx={{ mt: 2 }}
+              >
+                -
+              </Button>
+              <Typography variant="h5" gutterBottom>{teamAName} Fouls: {teamAFouls}</Typography>
+              <Button variant="contained" color="error" onClick={() => setTeamAFouls(teamAFouls + 1)} fullWidth>
+                Foul
+              </Button>
+              <Button 
+                variant="contained" 
+                color="error" 
+                onClick={() => setTeamAFouls(teamAFouls - 1)} 
+                disabled={teamAFouls === 0} 
+                fullWidth 
+                sx={{ mt: 2 }}
+              >
+                Undo Foul
+              </Button>
+            </CardContent>
+          </Card>
+        </Grid2>
+        
+        {/* Team B Card */}
+        <Grid2 item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <TextField
+                label="Team B Name"
+                value={teamBName}
+                onChange={handleTeamBNameChange}
+                fullWidth
+                margin="normal"
+              />
+              <Typography variant="h5" gutterBottom>{teamBName} Score: {teamBScore}</Typography>
+              <Button variant="contained" color="primary" onClick={() => setTeamBScore(teamBScore + 1)} fullWidth>
+                +
+              </Button>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={() => setTeamBScore(teamBScore - 1)} 
+                disabled={teamBScore === 0} 
+                fullWidth 
+                sx={{ mt: 2 }}
+              >
+                -
+              </Button>
+              <Typography variant="h5" gutterBottom>{teamBName} Fouls: {teamBFouls}</Typography>
+              <Button variant="contained" color="error" onClick={() => setTeamBFouls(teamBFouls + 1)} fullWidth>
+                Foul
+              </Button>
+              <Button 
+                variant="contained" 
+                color="error" 
+                onClick={() => setTeamBFouls(teamBFouls - 1)} 
+                disabled={teamBFouls === 0} 
+                fullWidth 
+                sx={{ mt: 2 }}
+              >
+                Undo Foul
+              </Button>
+            </CardContent>
+          </Card>
+        </Grid2>
+        
+        {/* Reset Button */}
+        <Grid2 item xs={12}>
+          <Button 
+            variant="outlined" 
+            color="error" 
+            onClick={handleResetScores} 
+            fullWidth
+          >
+            Reset Scores and Fouls
+          </Button>
+        </Grid2>
+        
+        {/* Quarter Buttons */}
+        <Grid2 item xs={12} container spacing={2}>
+          <Grid2 item xs={3}>
+            <Button variant="outlined" onClick={() => handleSetQuarter("Q1")} fullWidth>Q1</Button>
+          </Grid2>
+          <Grid2 item xs={3}>
+            <Button variant="outlined" onClick={() => handleSetQuarter("Q2")} fullWidth>Q2</Button>
+          </Grid2>
+          <Grid2 item xs={3}>
+            <Button variant="outlined" onClick={() => handleSetQuarter("Q3")} fullWidth>Q3</Button>
+          </Grid2>
+          <Grid2 item xs={3}>
+            <Button variant="outlined" onClick={() => handleSetQuarter("Q4")} fullWidth>Q4</Button>
+          </Grid2>
+        </Grid2>
+        
+        {/* Timer and Control */}
+        <Grid2 item xs={12} className="text-center">
+          <Typography variant="h4" component="h2" gutterBottom>
+            Timer: {formatTime(timer)}
+          </Typography>
+          <Button variant="contained" color="primary" onClick={handleStartStop}>
+            {isTimerRunning ? 'Stop' : 'Start'}
+          </Button>
+          <Button variant="outlined" onClick={handleReset} sx={{ ml: 2 }}>
+            Reset
+          </Button>
+        </Grid2>
+      </Grid2>
     </div>
   );
 };
