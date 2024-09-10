@@ -46,35 +46,47 @@ const Score = () => {
           </h3>
         </div>
       ) : (
-        <div>
-          <div className={styles.roundSection}>
-            <h2>{currentRound}</h2>
+        <div className={styles.container}>
+      {/* Round Section */}
+      <div className={styles.roundSection}>
+        <h2>{currentRound}</h2>
+      </div>
+      <div className={styles.boxedSection}>
+        {/* Team Names and Logos */}
+        <div className={styles.teamsContainer}>
+          <div className={styles.team}>
+            <h2>{teamAName}</h2>
+            <div className={styles.logoContainer}>
+              {/* Team A Logo */}
+              <img src={teamALogo} alt={`${teamAName} Logo`} className={styles.teamLogo} />
+            </div>
+            <h3>{teamAScore}</h3>
+            <p>Fouls: {teamAFouls}</p> {/* Added Team A Fouls */}
           </div>
-          <div className={styles.boxedSection}>
-            <div className={styles.teamsContainer}>
-              <TeamDisplay 
-                name={teamAName}
-                logo={teamALogo}
-                score={teamAScore}
-                fouls={teamAFouls}
-              />
-              <div className={styles.middleSection}>
-                <div className={styles.timerSection}>
-                  <h2 id='timerHeader'>TIME <br />{currentTime}</h2>
-                </div>
-                <div className={styles.quarterSection}>
-                  <h2>{currentQuarter}</h2>
-                </div>
-              </div>
-              <TeamDisplay 
-                name={teamBName}
-                logo={teamBLogo}
-                score={teamBScore}
-                fouls={teamBFouls}
-              />
+  
+          {/* Timer and Quarter */}
+          <div className={styles.middleSection}>
+            <div className={styles.timerSection}>
+              <h3 id="timerHeader">TIME</h3>
+              <div className={styles.timerValue}>{currentTime}</div>
+            </div>
+            <div className={styles.quarterSection}>
+              <h2>{currentQuarter}</h2>
             </div>
           </div>
+  
+          <div className={styles.team}>
+            <h2>{teamBName}</h2>
+            <div className={styles.logoContainer}>
+              {/* Team B Logo */}
+              <img src={teamBLogo} alt={`${teamBName} Logo`} className={styles.teamLogo} />
+            </div>
+            <h3>{teamBScore}</h3>
+            <p>Fouls: {teamBFouls}</p> {/* Added Team B Fouls */}
+          </div>
         </div>
+      </div>
+    </div>
       )}
     </div>
   );
