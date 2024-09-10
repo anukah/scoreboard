@@ -44,8 +44,8 @@
 }
 
 .teamLogo {
-  width: 30vmin;
-  height: 30vmin;
+  width: 40vmin;
+  height: 40vmin;
   object-fit: contain;
   margin: 2rem 0;
   background-color: #f5f5f5; /* Very light gray for team logos */
@@ -84,8 +84,8 @@
 }
 
 .drawLogos .teamLogo {
-  width: 20vmin;
-  height: 20vmin;
+  width: 40vmin;
+  height: 40vmin;
   background-color: #f5f5f5; /* Very light gray for draw logos */
 }
 
