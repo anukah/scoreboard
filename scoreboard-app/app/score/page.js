@@ -79,27 +79,45 @@ const Score = () => {
 
   return (
     <div className={styles.container}>
+      {/* Round Section */}
       <div className={styles.roundSection}>
         <h2>{localCurrentRound}</h2>
       </div>
-      <div className={styles.timerSection}>
-        <h2>Time: {localCurrentTime}</h2>
-      </div>
-      <div className={styles.scoreSectionContainer}>
-        <div className={styles.scoreSection}>
+    <div className={styles.boxedSection}>
+      {/* Team Names and Logos */}
+      <div className={styles.teamsContainer}>
+        <div className={styles.team}>
           <h2>{localTeamAName}</h2>
+          <div className={styles.logoContainer}>
+            {/* Team A Logo */}
+            <img src="/images/team-logos/uop.png" alt={`${localTeamAName} Logo`} className={styles.teamLogo} />
+          </div>
           <h3>{localTeamAScore}</h3>
-          <p>Fouls: {localTeamAFouls}</p>
+          <p>Fouls: {localTeamAFouls}</p> {/* Added Team A Fouls */}
         </div>
-        <div className={styles.scoreSection}>
+  
+        {/* Timer and Quarter */}
+        <div className={styles.middleSection}>
+          <div className={styles.timerSection}>
+            <h2 id='timerHeader'>TIME <br></br>
+              {localCurrentTime}</h2>
+          </div>
+          <div className={styles.quarterSection}>
+            <h2>{localCurrentQuarter}</h2>
+          </div>
+        </div>
+  
+        <div className={styles.team}>
           <h2>{localTeamBName}</h2>
+          <div className={styles.logoContainer}>
+            {/* Team B Logo */}
+            <img src="/images/team-logos/uop.png" alt={`${localTeamBName} Logo`} className={styles.teamLogo} />
+          </div>
           <h3>{localTeamBScore}</h3>
-          <p>Fouls: {localTeamBFouls}</p>
+          <p>Fouls: {localTeamBFouls}</p> {/* Added Team B Fouls */}
         </div>
       </div>
-      <div className={styles.quarterSection}>
-        <h2>Quarter: {localCurrentQuarter}</h2>
-      </div>
+    </div>
     </div>
   );
 };

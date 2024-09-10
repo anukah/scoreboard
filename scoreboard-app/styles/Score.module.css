@@ -1,73 +1,136 @@
-/* Container for the scoreboard */
+@font-face {
+  font-family: 'Digital7Mono';
+  src: url('/fonts/Digital7Mono-Yz9J4.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Apply the custom font to all scoreboard elements */
+.container,
+.timerSection h2,
+.quarterSection h2,
+.team h2,
+.team h3,
+.team p {
+  font-family: 'Digital7Mono', sans-serif;
+}
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Full height of the viewport */
-    width: 100vw;
-    padding: 20px;
-    background-color: #f0f0f0; /* Light gray background for the container */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  }
-  
-  /* Flexbox layout for the two teams side by side */
-  .scoreSectionContainer {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 800px; /* Adjust width to your preference */
-    background-color: #e0e0e0; /* Slightly darker gray to distinguish the section */
-  }
-  
-  /* Section for each team's score and fouls */
-  .scoreSection {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-    background-color: #d0d0d0; /* Even darker gray for individual team sections */
-  }
-  
-  .scoreSection h2 {
-    font-size: 3.5rem; /* Large font size for team names */
-    font-weight: bold;
-    color: #000000; /* Black text for contrast */
-    margin-bottom: 10px;
-    background-color: #ffcccc; /* Light red background to highlight the team name */
-  }
-  
-  .scoreSection h3 {
-    font-size: 26rem; /* Larger font size for the score */
-    font-weight: bold;
-    color: #000000; /* Black color for the score */
-    margin-top: 20px;
-    background-color: #ccccff; /* Light blue background to highlight the score */
-  }
-  
-  /* Style for fouls */
-  .scoreSection p {
-    font-size: 3rem; /* Font size for fouls */
-    color: #555555; /* Dark gray color for fouls text */
-    margin-top: 10px;
-    background-color: #ccffcc; /* Light green background for fouls */
-  }
-  
-  /* Section for displaying the quarter, time, and round */
-  .quarterSection, .timerSection, .roundSection {
-    font-size: 3rem; /* Large font size for visibility */
-    font-weight: bold;
-    color: #000000; /* Black text for contrast */
-    margin-bottom: 20px;
-    margin-top: -20px;
-    text-align: center;
-    background-color: #ffffcc; /* Light yellow background for quarter, time, and round */
-  }
-  
-  .timerSection {
-    margin-bottom: -10px;
-    background-color: #ffccff; /* Light pink background for the timer section */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white; /* White background for projection */
+  color: black; /* Black text color */
+  height: 100vh;
+  width: 100vw;
+  padding: 20px;
+  box-sizing: border-box;
+  aspect-ratio: 16 / 9; /* Enforce 16:9 aspect ratio */
+  max-height: 100vh; /* Ensure it doesn't exceed viewport height */
+  max-width: 100vw; /* Ensure it doesn't exceed viewport width */
+}
+
+.roundSection {
+  font-size: 6rem; /* Font size for the round section */
+  margin-bottom: 20px;
+}
+
+.teamsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px; /* Max-width for the container */
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+}
+
+.logoContainer {
+  margin: 20px 0;
+  width: 250px; /* Adjusted width */
+  height: 250px; /* Adjusted height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.teamLogo {
+  width: 100%; /* Use 100% of the container */
+  height: 100%; /* Use 100% of the container */
+  object-fit: contain; /* Contain within the box */
+}
+
+.middleSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+}
+
+.timerSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timerSection h2 {
+  font-size: 6rem; /* Font size for the timer */
+  color: red; /* Red color for emphasis */
+  border: 5px solid red; /* Red border around the timer */
+  padding: 20px; /* Padding inside the box */
+  margin: 0; /* Remove margin */
+  line-height: 1.2; /* Ensure spacing is consistent */
+}
+
+.quarterSection h2 {
+  font-size: 6rem; /* Font size for the quarter section */
+  margin-top: 10px;
+  margin-bottom: 0; /* Ensure no extra margin */
+}
+
+.team h2 {
+  font-size: 8rem; /* Font size for team names */
+  margin: 0; /* Remove margin */
+}
+
+.team h3 {
+  font-size: 11rem; /* Font size for scores */
+  margin-top: 10px;
+  margin-bottom: 0; /* Ensure no extra margin */
+}
+
+/* Style for fouls */
+.team p {
+  font-size: 4rem; /* Font size for fouls */
+  margin-top: 10px;
+  color: black; /* Black color for fouls */
+}
+
+#timerHeader {
+  margin-bottom: 5px; /* Space between the header and time */
+  font-size: 3rem; /* Font size for the header */
+  color: black; /* Black color for the header */
+  margin: 0; /* Ensure no extra margin */
+  padding-bottom: 10px; /* Space under the header */
+}
+
+.boxedSection {
+  border: 5px solid black; /* Black border around the section */
+  padding: 1rem 5rem 0rem 5rem; /* Padding inside the box */
+  border-radius: 10px; /* Optional: Add rounded corners */
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
