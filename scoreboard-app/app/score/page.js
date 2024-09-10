@@ -3,6 +3,7 @@
 import React from 'react';
 import { useScore } from '../../context/StoreContext';
 import styles from '../../styles/Score.module.css';
+import styles1 from '../../styles/Result.module.css';
 
 const Score = () => {
   const { 
@@ -36,12 +37,12 @@ const Score = () => {
   );
 
   return (
-    <div className={styles.container}>
+    <div className={styles1.container}>
       {matchEnded ? (
-        <div className={styles.resultSection}>
-          <h2 className={styles.headingSecondary}>{winner.name} Wins!</h2>
-          <img src={winner.logo} alt={`${winner.name} Logo`} className={styles.teamLogo} />
-          <h3 className={styles.scores}>
+        <div className={styles1.resultSection}>
+          <h2 className={styles1.headingSecondary}>{winner.name} Wins!</h2>
+          <img src={winner.logo} alt={`${winner.name} Logo`} className={styles1.teamLogo} />
+          <h3 className={styles1.scores}>
             {teamAScore} - {teamBScore}
           </h3>
         </div>

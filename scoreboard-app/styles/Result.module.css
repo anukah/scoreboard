@@ -5,92 +5,110 @@
   font-style: normal;
 }
 
-/* Apply the custom font to all scoreboard elements */
-.container,
-.resultSection h2,
-.resultSection h1,
-.teamLogo {
-  font-family: 'Digital7Mono', sans-serif;
-  text-align: center;
-}
-
-/* Ensure the container takes the full screen */
 .container {
+  font-family: 'Digital7Mono', sans-serif;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  background-color: white; /* White background for projection */
-  color: black; /* Black text color */
-  height: 100vh;
-  width: 100vw;
-  padding: 20px;
+  align-items: center;
+  background-color: #f0f0f0; /* Light gray for the container */
+  min-height: 100vh;
+  padding: 2rem;
   box-sizing: border-box;
-  aspect-ratio: 16 / 9; /* Enforce 16:9 aspect ratio */
-  max-height: 100vh; /* Ensure it doesn't exceed viewport height */
-  max-width: 100vw; /* Ensure it doesn't exceed viewport width */
 }
 
-/* Result Section - Similar to Round Section in the scoreboard */
 .resultSection {
-  font-size: calc(3vw + 3vh); /* Scales font size based on viewport dimensions */
-  margin-top: 100px;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   text-align: center;
-  justify-content: center;
-  background-color: #e0f7fa; /* Light cyan background for easier identification */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-  border: 2px solid #00796b; /* Dark cyan border for better distinction */
+  background-color: #ffffff; /* White for the result section */
+  border: 4px solid #000000; /* Black border */
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  min-height: 80vh; /* Ensure the section takes up most of the viewport height */
 }
 
-/* Display logos side by side when the match is drawn */
-.logoContainer {
+.headingSecondary {
+  font-size: 15vmin;
+  color: #000000; /* Black text color */
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #e0e0e0; /* Light gray for the heading */
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%; /* Ensure the heading takes full width */
+}
+
+.teamLogo {
+  width: 30vmin;
+  height: 30vmin;
+  object-fit: contain;
+  margin: 2rem 0;
+  background-color: #f5f5f5; /* Very light gray for team logos */
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px; /* Space between logos */
-  margin-top: 20px;
 }
 
-.logoContainer.drawLogos {
-  gap: 40px; /* Increased space between logos for draw case */
+.teamLogo img {
+  max-width: 90%;
+  max-height: 90%;
+  padding: 1rem;
 }
 
-/* Team Logo Styling */
-.teamLogo {
-  width: calc(8vw + 8vh); /* Scales based on viewport size */
-  height: calc(8vw + 8vh); /* Scales based on viewport size */
-  object-fit: contain;
-  border: 2px solid #333; /* Border around logos */
-  border-radius: 50%; /* Circular logos for uniformity */
-  background-color: #ffffff; /* Ensure a clean white background */
-  padding: 1px;
-  margin: 100px;
-}
-
-.resultSection h2 {
-  font-size: calc(6vw + 6vh); /* Responsive font size */
-  margin: 20px 0;
-  text-align: center; /* Green color for secondary heading */
-  background-color: #e8f5e9; /* Light green background */
-  padding: 10px;
-  border-radius: 8px;
-  border: 2px solid #2e7d32; /* Dark green border */
-}
-
-/* Draw specific styling */
-.logoContainer.drawLogos {
-  color: #ff6f00; /* Orange color for draw text */
-  background-color: #fff3e0; /* Light orange background */
-  border: 2px dashed #e65100; /* Dashed border for draw */
-  padding: 15px;
+.scores {
+  font-size: 12vmin;
+  color: #000000; /* Black text color for scores */
+  margin-top: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #dcdcdc; /* Light gray for scores */
+  padding: 1rem;
   border-radius: 10px;
-  display: flex; /* Ensure logos are side by side */
+  width: 100%; /* Ensure the scores take full width */
+}
+
+.drawLogos {
+  display: flex;
   justify-content: center;
   align-items: center;
+  gap: 4rem;
+  background-color: #f0f0f0; /* Light gray for the draw logos section */
+  padding: 2rem;
+  border-radius: 20px;
+  width: 100%; /* Ensure the draw logos section takes full width */
+}
+
+.drawLogos .teamLogo {
+  width: 20vmin;
+  height: 20vmin;
+  background-color: #f5f5f5; /* Very light gray for draw logos */
+}
+
+@media (max-width: 768px) {
+  .resultSection {
+    padding: 2rem;
+  }
+
+  .headingSecondary {
+    font-size: 10vmin;
+  }
+
+  .teamLogo {
+    width: 40vmin;
+    height: 40vmin;
+  }
+
+  .scores {
+    font-size: 16vmin;
+  }
+
+  .drawLogos .teamLogo {
+    width: 25vmin;
+    height: 25vmin;
+  }
 }
