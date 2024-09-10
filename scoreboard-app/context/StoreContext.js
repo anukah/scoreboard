@@ -1,48 +1,66 @@
 "use client";
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-import React, { createContext, useState, useContext, useEffect } from 'react';
-
-// Create a context with default values
 const ScoreContext = createContext();
 
 export const ScoreProvider = ({ children }) => {
   const [teamAScore, setTeamAScore] = useState(0);
   const [teamBScore, setTeamBScore] = useState(0);
-  const [teamAName, setTeamAName] = useState("Team A");
-  const [teamBName, setTeamBName] = useState("Team B");
-  const [teamALogo, setTeamALogo] = useState("/images/team-logos/uop.png"); // Default logo path
-  const [teamBLogo, setTeamBLogo] = useState("/images/team-logos/uop.png"); // Default logo path
+  const [teamAName, setTeamAName] = useState('Team A');
+  const [teamBName, setTeamBName] = useState('Team B');
+  const [teamALogo, setTeamALogo] = useState('/images/team-logos/uop.png');
+  const [teamBLogo, setTeamBLogo] = useState('/images/team-logos/uop.png');
   const [teamAFouls, setTeamAFouls] = useState(0);
   const [teamBFouls, setTeamBFouls] = useState(0);
-  const [currentQuarter, setCurrentQuarter] = useState("");
-  const [currentTime, setCurrentTime] = useState("00:00");
-  const [currentRound, setCurrentRound] = useState(""); // Ensure this is set correctly
+  const [currentQuarter, setCurrentQuarter] = useState('Q1');
+  const [currentTime, setCurrentTime] = useState('00:00');
+  const [currentRound, setCurrentRound] = useState('Round 1');
+  const [matchEnded, setMatchEnded] = useState(false);
 
-  // Sync state with localStorage
   useEffect(() => {
-    const storedTeamAScore = localStorage.getItem('teamAScore');
-    const storedTeamBScore = localStorage.getItem('teamBScore');
-    const storedTeamAName = localStorage.getItem('teamAName');
-    const storedTeamBName = localStorage.getItem('teamBName');
-    const storedTeamALogo = localStorage.getItem('teamALogo');
-    const storedTeamBLogo = localStorage.getItem('teamBLogo');
-    const storedTeamAFouls = localStorage.getItem('teamAFouls');
-    const storedTeamBFouls = localStorage.getItem('teamBFouls');
-    const storedCurrentQuarter = localStorage.getItem('currentQuarter');
-    const storedCurrentTime = localStorage.getItem('currentTime');
-    const storedRound = localStorage.getItem('currentRound');
-    
-    if (storedTeamAScore) setTeamAScore(parseInt(storedTeamAScore, 10));
-    if (storedTeamBScore) setTeamBScore(parseInt(storedTeamBScore, 10));
-    if (storedTeamAName) setTeamAName(storedTeamAName);
-    if (storedTeamBName) setTeamBName(storedTeamBName);
-    if (storedTeamALogo) setTeamALogo(storedTeamALogo);
-    if (storedTeamBLogo) setTeamBLogo(storedTeamBLogo);
-    if (storedTeamAFouls) setTeamAFouls(parseInt(storedTeamAFouls, 10));
-    if (storedTeamBFouls) setTeamBFouls(parseInt(storedTeamBFouls, 10));
-    if (storedCurrentQuarter) setCurrentQuarter(storedCurrentQuarter);
-    if (storedCurrentTime) setCurrentTime(storedCurrentTime);
-    if (storedRound) setCurrentRound(storedRound);
+    const handleStorageChange = (e) => {
+      switch(e.key) {
+        case 'teamAScore':
+          setTeamAScore(parseInt(e.newValue, 10) || 0);
+          break;
+        case 'teamBScore':
+          setTeamBScore(parseInt(e.newValue, 10) || 0);
+          break;
+        case 'teamAName':
+          setTeamAName(e.newValue || 'Team A');
+          break;
+        case 'teamBName':
+          setTeamBName(e.newValue || 'Team B');
+          break;
+        case 'teamALogo':
+          setTeamALogo(e.newValue || '/images/team-logos/uop.png');
+          break;
+        case 'teamBLogo':
+          setTeamBLogo(e.newValue || '/images/team-logos/uop.png');
+          break;
+        case 'teamAFouls':
+          setTeamAFouls(parseInt(e.newValue, 10) || 0);
+          break;
+        case 'teamBFouls':
+          setTeamBFouls(parseInt(e.newValue, 10) || 0);
+          break;
+        case 'currentQuarter':
+          setCurrentQuarter(e.newValue || 'Q1');
+          break;
+        case 'currentTime':
+          setCurrentTime(e.newValue || '00:00');
+          break;
+        case 'currentRound':
+          setCurrentRound(e.newValue || 'Round 1');
+          break;
+        case 'matchEnded':
+          setMatchEnded(e.newValue === 'true');
+          break;
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   useEffect(() => {
@@ -57,21 +75,114 @@ export const ScoreProvider = ({ children }) => {
     localStorage.setItem('currentQuarter', currentQuarter);
     localStorage.setItem('currentTime', currentTime);
     localStorage.setItem('currentRound', currentRound);
-  }, [teamAScore, teamBScore, teamAName, teamBName, teamALogo, teamBLogo, teamAFouls, teamBFouls, currentQuarter, currentTime, currentRound]);
+    localStorage.setItem('matchEnded', matchEnded);
+  }, [teamAScore, teamBScore, teamAName, teamBName, teamALogo, teamBLogo, teamAFouls, teamBFouls, currentQuarter, currentTime, currentRound, matchEnded]);
+
+  const updateTeamAScore = (score) => {
+    setTeamAScore(score);
+    localStorage.setItem('teamAScore', score);
+  };
+
+  const updateTeamBScore = (score) => {
+    setTeamBScore(score);
+    localStorage.setItem('teamBScore', score);
+  };
+
+  const updateTeamAName = (name) => {
+    setTeamAName(name);
+    localStorage.setItem('teamAName', name);
+  };
+
+  const updateTeamBName = (name) => {
+    setTeamBName(name);
+    localStorage.setItem('teamBName', name);
+  };
+
+  const updateTeamALogo = (logo) => {
+    setTeamALogo(logo);
+    localStorage.setItem('teamALogo', logo);
+  };
+
+  const updateTeamBLogo = (logo) => {
+    setTeamBLogo(logo);
+    localStorage.setItem('teamBLogo', logo);
+  };
+
+  const updateTeamAFouls = (fouls) => {
+    setTeamAFouls(fouls);
+    localStorage.setItem('teamAFouls', fouls);
+  };
+
+  const updateTeamBFouls = (fouls) => {
+    setTeamBFouls(fouls);
+    localStorage.setItem('teamBFouls', fouls);
+  };
+
+  const updateCurrentQuarter = (quarter) => {
+    setCurrentQuarter(quarter);
+    localStorage.setItem('currentQuarter', quarter);
+  };
+
+  const updateCurrentTime = (time) => {
+    setCurrentTime(time);
+    localStorage.setItem('currentTime', time);
+  };
+
+  const updateCurrentRound = (round) => {
+    setCurrentRound(round);
+    localStorage.setItem('currentRound', round);
+  };
+
+  const endMatch = () => {
+    setMatchEnded(true);
+    localStorage.setItem('matchEnded', 'true');
+  };
+
+  const resetMatch = () => {
+    setTeamAScore(0);
+    setTeamBScore(0);
+    setTeamAFouls(0);
+    setTeamBFouls(0);
+    setCurrentQuarter('Q1');
+    setCurrentTime('00:00');
+    setMatchEnded(false);
+    
+    localStorage.setItem('teamAScore', '0');
+    localStorage.setItem('teamBScore', '0');
+    localStorage.setItem('teamAFouls', '0');
+    localStorage.setItem('teamBFouls', '0');
+    localStorage.setItem('currentQuarter', 'Q1');
+    localStorage.setItem('currentTime', '00:00');
+    localStorage.setItem('matchEnded', 'false');
+  };
 
   return (
     <ScoreContext.Provider value={{
-      teamAScore, setTeamAScore,
-      teamBScore, setTeamBScore,
-      teamAName, setTeamAName,
-      teamBName, setTeamBName,
-      teamALogo, setTeamALogo,  // New state for Team A logo
-      teamBLogo, setTeamBLogo,  // New state for Team B logo
-      teamAFouls, setTeamAFouls,
-      teamBFouls, setTeamBFouls,
-      currentQuarter, setCurrentQuarter,
-      currentTime, setCurrentTime,
-      round: currentRound, setRound: setCurrentRound
+      teamAScore,
+      teamBScore,
+      teamAName,
+      teamBName,
+      teamALogo,
+      teamBLogo,
+      teamAFouls,
+      teamBFouls,
+      currentQuarter,
+      currentTime,
+      currentRound,
+      matchEnded,
+      updateTeamAScore,
+      updateTeamBScore,
+      updateTeamAName,
+      updateTeamBName,
+      updateTeamALogo,
+      updateTeamBLogo,
+      updateTeamAFouls,
+      updateTeamBFouls,
+      updateCurrentQuarter,
+      updateCurrentTime,
+      updateCurrentRound,
+      endMatch,
+      resetMatch
     }}>
       {children}
     </ScoreContext.Provider>

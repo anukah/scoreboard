@@ -1,296 +1,245 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useScore } from '../context/StoreContext';
-import { Button, Card, CardContent, Typography, ToggleButton, ToggleButtonGroup, Grid2, TextField } from '@mui/material';
-import styles from '../styles/Home.module.css';
+import { Button, Typography, ToggleButton, ToggleButtonGroup, Grid2, TextField } from '@mui/material';
+
+const teamData = [
+  { name: "EST", logo: "/images/team-logos/est.png" },
+  { name: "JAF", logo: "/images/team-logos/jaf.png" },
+  { name: "KEL", logo: "/images/team-logos/kel.png" },
+  { name: "RAJ", logo: "/images/team-logos/raj.png" },
+  { name: "RUH", logo: "/images/team-logos/ruh.png" },
+  { name: "SAB", logo: "/images/team-logos/sab.png" },
+  { name: "SEU", logo: "/images/team-logos/seu.png" },
+  { name: "SJP", logo: "/images/team-logos/sjp.png" },
+  { name: "UOC", logo: "/images/team-logos/uoc.png" },
+  { name: "UOM", logo: "/images/team-logos/uom.png" },
+  { name: "UOP", logo: "/images/team-logos/uop.png" },
+  { name: "UVA", logo: "/images/team-logos/uva.png" },
+  { name: "WAY", logo: "/images/team-logos/way.png" },
+  { name: "VAV", logo: "/images/team-logos/vav.png" }
+];
 
 const Home = () => {
-  // Destructure and import state and functions from ScoreContext
   const { 
-    teamAScore, setTeamAScore, 
-    teamBScore, setTeamBScore, 
-    teamAName, setTeamAName, 
-    teamBName, setTeamBName, 
-    teamALogo, setTeamALogo, 
-    teamBLogo, setTeamBLogo, 
-    teamAFouls, setTeamAFouls, 
-    teamBFouls, setTeamBFouls, 
-    setCurrentQuarter, setCurrentTime,
-    round, setRound
+    teamAScore, updateTeamAScore,
+    teamBScore, updateTeamBScore,
+    teamAName, updateTeamAName,
+    teamBName, updateTeamBName,
+    teamALogo, updateTeamALogo,
+    teamBLogo, updateTeamBLogo,
+    teamAFouls, updateTeamAFouls,
+    teamBFouls, updateTeamBFouls,
+    updateCurrentQuarter, updateCurrentTime,
+    currentRound, updateCurrentRound,
+    endMatch, resetMatch
   } = useScore();
 
-  // Local state for the timer and selected quarter
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [timer, setTimer] = useState(0); // Timer in seconds
+  const [timer, setTimer] = useState(0);
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
 
-  // Effect to handle the timer functionality
   useEffect(() => {
     let interval;
-
     if (isTimerRunning) {
-      interval = setInterval(() => {
-        setTimer(prev => prev + 1);
-      }, 1000); // Increase timer every second
-    } else if (!isTimerRunning && timer !== 0) {
-      clearInterval(interval); // Clear interval when timer is stopped
+      interval = setInterval(() => setTimer(prev => prev + 1), 1000);
     }
-
     return () => clearInterval(interval);
-  }, [isTimerRunning, timer]);
+  }, [isTimerRunning]);
 
-  // Start/Stop button handler
-  const handleStartStop = () => {
-    setIsTimerRunning(prev => !prev);
-  };
+  useEffect(() => {
+    updateCurrentTime(formatTime(timer));
+  }, [timer, updateCurrentTime]);
 
-  // Reset timer button handler
+  const formatTime = useCallback((seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }, []);
+
+  const handleStartStop = () => setIsTimerRunning(prev => !prev);
   const handleReset = () => {
     setIsTimerRunning(false);
     setTimer(0);
   };
 
-  // Function to format time from seconds to "mm:ss"
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  const handleEndMatch = () => {
+    endMatch();
+    setIsTimerRunning(false);
   };
 
-  // Effect to update current time in ScoreContext
-  useEffect(() => {
-    setCurrentTime(formatTime(timer));
-  }, [timer, setCurrentTime]);
-
-  // Team data with names and logo paths
-  const teamData = [
-    { name: "EST", logo: "/images/team-logos/est.png" },
-    { name: "JAF", logo: "/images/team-logos/jaf.png" },
-    { name: "KEL", logo: "/images/team-logos/kel.png" },
-    { name: "RAJ", logo: "/images/team-logos/raj.png" },
-    { name: "RUH", logo: "/images/team-logos/ruh.png" },
-    { name: "SAB", logo: "/images/team-logos/sab.png" },
-    { name: "SEU", logo: "/images/team-logos/seu.png" },
-    { name: "SJP", logo: "/images/team-logos/sjp.png" },
-    { name: "UOC", logo: "/images/team-logos/uoc.png" },
-    { name: "UOM", logo: "/images/team-logos/uom.png" },
-    { name: "UOP", logo: "/images/team-logos/uop.png" },
-    { name: "UVA", logo: "/images/team-logos/uva.png" },
-    { name: "WAY", logo: "/images/team-logos/way.png" },
-    { name: "VAV", logo: "/images/team-logos/vav.png" }
-  ];
-
-  // Handle team selection and update team name and logo
-  const handleTeamSelect = (teamIndex, isTeamA) => {
+  const handleTeamSelect = useCallback((teamIndex, isTeamA) => {
     const team = teamData[teamIndex];
     if (isTeamA) {
-      setTeamAName(team.name);
-      setTeamALogo(team.logo);
+      updateTeamAName(team.name);
+      updateTeamALogo(team.logo);
     } else {
-      setTeamBName(team.name);
-      setTeamBLogo(team.logo);
+      updateTeamBName(team.name);
+      updateTeamBLogo(team.logo);
     }
-  };
+  }, [updateTeamAName, updateTeamALogo, updateTeamBName, updateTeamBLogo]);
 
-  // Handle round input change
-  const handleRoundChange = (e) => {
-    setRound(e.target.value);
-  };
+  const handleRoundChange = (e) => updateCurrentRound(e.target.value);
 
-  // Handle resetting scores and fouls
   const handleResetScores = () => {
-    setTeamAScore(0);
-    setTeamBScore(0);
-    setTeamAFouls(0);
-    setTeamBFouls(0);
+    updateTeamAScore(0);
+    updateTeamBScore(0);
+    updateTeamAFouls(0);
+    updateTeamBFouls(0);
   };
 
-  // Handle quarter selection
   const handleQuarterChange = (event, newQuarter) => {
     if (newQuarter !== null) {
       setSelectedQuarter(newQuarter);
-      setCurrentQuarter(newQuarter);
+      updateCurrentQuarter(newQuarter);
     }
   };
 
+  const handleScoreChange = useCallback((team, change) => {
+    const updateScore = team === 'A' ? updateTeamAScore : updateTeamBScore;
+    const currentScore = team === 'A' ? teamAScore : teamBScore;
+    updateScore(Math.max(0, currentScore + change));
+  }, [updateTeamAScore, updateTeamBScore, teamAScore, teamBScore]);
+
+  const handleFoulChange = useCallback((team, change) => {
+    const updateFouls = team === 'A' ? updateTeamAFouls : updateTeamBFouls;
+    const currentFouls = team === 'A' ? teamAFouls : teamBFouls;
+    updateFouls(Math.max(0, currentFouls + change));
+  }, [updateTeamAFouls, updateTeamBFouls, teamAFouls, teamBFouls]);
+
   return (
-    <div className={styles.container}>
-      {/* Control Panel Heading */}
-      <Grid2 container spacing={5} className={styles.gridItem}
-      style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        textAlign: 'center',
-        color:"black"
-      }}>
-        <Grid2 item xs={12} className={styles.centeredGridItem}>
-          <Typography variant="h3" component="h1" className={styles.heading}>
+    <div className="flex flex-col items-center justify-center p-4 min-h-screen bg-[#d9d4d8]">
+      <Grid2 container spacing={2} alignItems="center" justifyContent="center">
+        
+        <Grid2 size={12} className="text-center mb-4 border border-gray-300 rounded-lg p-3 bg-white">
+          <Typography variant="h4" component="h1" className="font-bold text-2xl text-gray-800">
             Scoreboard Controls
           </Typography>
         </Grid2>
-      </Grid2>
-
-      {/* Round Input */}
-      <Grid2 container spacing={5} className={styles.gridItem}>
-        <Grid2 size={12}>
+  
+        <Grid2 size={12} className="mb-4">
           <TextField
-            margin='normal'
+            margin="dense"
             fullWidth
             label="Round"
-            value={round}
+            value={currentRound}
             onChange={handleRoundChange}
+            className="bg-white border border-gray-300 rounded-lg"
+            InputProps={{
+              className: "text-gray-800 text-sm"
+            }}
           />
         </Grid2>
-      </Grid2>
-      
-      {/* Team Selection for Team A */}
-      <Grid2 container spacing={2} className={styles.gridItem}>
-        <Grid2 item xs={12}>
-          <Typography variant="h6" align="center">
-            Team A:
-          </Typography>
-        </Grid2>
-        {teamData.map((team, index) => (
-          <Grid2 key={index} item xs={3}>
-            <Button 
-              variant="outlined" 
-              fullWidth
-              onClick={() => handleTeamSelect(index, true)}>
-              {team.name}
-            </Button>
+  
+        {['A', 'B'].map((teamLetter) => (
+          <Grid2 container spacing={1} key={`team-${teamLetter}`} className="mb-3 border border-gray-300 rounded-lg p-2 bg-white">
+            <Grid2 item xs={12} className="text-center">
+              <Typography variant="h6" className="font-semibold text-lg text-gray-800">
+                Team {teamLetter}:
+              </Typography>
+            </Grid2>
+            <Grid2 container spacing={1} item xs={12} justifyContent="center">
+              {teamData.map((team, index) => (
+                <Grid2 key={index} item xs={6} sm={3} className="flex justify-center">
+                  <ToggleButton
+                    value={team.name}
+                    selected={teamLetter === 'A' ? teamAName === team.name : teamBName === team.name}
+                    onChange={() => handleTeamSelect(index, teamLetter === 'A')}
+                    className={`py-1 text-xs w-full border border-gray-300 rounded-lg hover:bg-[#b24230] hover:text-white ${
+                      teamLetter === 'A' && teamAName === team.name ? 'bg-[#b24230] text-white' : 
+                      teamLetter === 'B' && teamBName === team.name ? 'bg-[#b24230] text-white' : 
+                      'bg-white text-gray-800'
+                    }`}
+                  >
+                    {team.name}
+                  </ToggleButton>
+                </Grid2>
+              ))}
+            </Grid2>
           </Grid2>
         ))}
-      </Grid2>
-
-      {/* Team Selection for Team B */}
-      <Grid2 container spacing={2} className={styles.gridItem}>
-        <Grid2 item xs={12}>
-          <Typography variant="h6" align="center">
-            Team B:
-          </Typography>
-        </Grid2>
-        {teamData.map((team, index) => (
-          <Grid2 key={index} item xs={3}>
-            <Button 
-              variant="outlined" 
-              fullWidth
-              onClick={() => handleTeamSelect(index, false)}>
-              {team.name}
+  
+        {['A', 'B'].map((teamLetter) => {
+          const teamName = teamLetter === 'A' ? teamAName : teamBName;
+          const teamScore = teamLetter === 'A' ? teamAScore : teamBScore;
+          const teamFouls = teamLetter === 'A' ? teamAFouls : teamBFouls;
+  
+          return (
+            <Grid2 item xs={12} md={6} key={`team-${teamLetter}-controls`} className="mb-3 border border-gray-300 rounded-lg p-3 bg-white">
+              <div className="flex flex-col items-center">
+                <Typography variant="h6" className="font-semibold text-lg text-gray-800 mb-1">
+                  {teamName} Score: {teamScore}
+                </Typography>
+                <div className="flex space-x-1 mb-3">
+                  <Button variant="outlined" onClick={() => handleScoreChange(teamLetter, 1)} className="flex-1 py-1 bg-[#b24230] text-white hover:bg-[#541212] text-xs">
+                    +
+                  </Button>
+                  <Button variant="outlined" onClick={() => handleScoreChange(teamLetter, -1)} className="flex-1 py-1 bg-[#b24230] text-white hover:bg-[#541212] text-xs">
+                    -
+                  </Button>
+                </div>
+                <Typography variant="h6" className="font-semibold text-lg text-gray-800 mb-1">
+                  {teamName} Fouls: {teamFouls}
+                </Typography>
+                <div className="flex space-x-1">
+                  <Button variant="outlined" color="error" onClick={() => handleFoulChange(teamLetter, 1)} className="flex-1 py-1 bg-[#541212] text-white hover:bg-[#b24230] text-xs">
+                    Foul
+                  </Button>
+                  <Button variant="outlined" color="error" onClick={() => handleFoulChange(teamLetter, -1)} className="flex-1 py-1 bg-[#541212] text-white hover:bg-[#b24230] text-xs">
+                    Undo Foul
+                  </Button>
+                </div>
+              </div>
+            </Grid2>
+          );
+        })}
+  
+        <Grid2 container spacing={1} className="mt-3 border border-gray-300 rounded-lg p-3 bg-white">
+          <Grid2 size={4} className="mb-3 sm:mb-0">
+            <Typography variant="h6" component="h2" gutterBottom className="font-semibold text-lg text-gray-800 mb-1">
+              Quarter:
+            </Typography>
+            <ToggleButtonGroup value={selectedQuarter} exclusive onChange={handleQuarterChange} fullWidth>
+              {['Q1', 'Q2', 'Q3', 'Q4'].map((quarter) => (
+                <ToggleButton
+                  key={quarter}
+                  value={quarter}
+                  className={`text-gray-800 hover:bg-[#b24230] hover:text-white text-xs ${
+                    selectedQuarter === quarter ? 'bg-yellow-400 text-white' : 'bg-gray-300'
+                  }`}
+                >
+                  {quarter}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          </Grid2>
+  
+          <Grid2 size={4} className="mb-3 sm:mb-0">
+            <div className="text-center">
+              <Typography variant="h6" component="h2" gutterBottom className="font-semibold text-lg text-gray-800 mb-1">
+                Timer: {formatTime(timer)}
+              </Typography>
+              <Button variant="outlined" onClick={handleStartStop} fullWidth className="py-1 bg-[#b24230] text-white hover:bg-[#541212] text-xs">
+                {isTimerRunning ? 'Stop' : 'Start'}
+              </Button>
+              <Button variant="outlined" onClick={handleReset} fullWidth className="py-1 mt-1 bg-[#541212] text-white hover:bg-[#b24230] text-xs">
+                Reset Timer
+              </Button>
+            </div>
+          </Grid2>
+  
+          <Grid2 size={4}>
+            <Button variant="outlined" onClick={handleResetScores} fullWidth className="py-1 bg-[#541212] text-white hover:bg-[#b24230] text-xs">
+              Reset Scores and Fouls
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={handleEndMatch} fullWidth className="py-1 mt-1 bg-[#e39937] text-white hover:bg-[#b24230] text-xs">
+              End Match
+            </Button>
+            <Button variant="outlined" onClick={resetMatch} fullWidth className="py-1 mt-1 bg-[#b24230] text-white hover:bg-[#541212] text-xs">
+              Reset Match
             </Button>
           </Grid2>
-        ))}
-      </Grid2>
-      
-      <Grid2 container spacing={5} className={styles.gridItem}>
-        <Grid2 size={6}>
-          <Card className={styles.card}>
-            <CardContent>
-              <Typography variant="h5" className={styles.cardTitle}>{teamAName} Score: {teamAScore}</Typography>
-              <Button variant="outlined" color="primary" onClick={() => setTeamAScore(teamAScore + 1)} className={styles.button}>
-                +
-              </Button>
-              <Button 
-                variant="outlined" 
-                color="primary"
-                onClick={() => setTeamAScore(teamAScore - 1)} 
-                disabled={teamAScore === 0} 
-                className={`${styles.button} ${styles.buttonPrimary}`}
-              >
-                -
-              </Button>
-              <Typography variant="h5" className={styles.cardTitle}>{teamAName} Fouls: {teamAFouls}</Typography>
-              <Button variant="outlined" color="error" onClick={() => setTeamAFouls(teamAFouls + 1)} className={`${styles.button} ${styles.buttonError}`}>
-                Foul
-              </Button>
-              <Button 
-                variant="outlined" 
-                color="error" 
-                onClick={() => setTeamAFouls(teamAFouls - 1)} 
-                disabled={teamAFouls === 0} 
-                className={`${styles.button} ${styles.buttonError}`}
-              >
-                Undo Foul
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid2>
-        
-        <Grid2 size={6}>
-          <Card className={styles.card}>
-            <CardContent>
-              <Typography variant="h5" className={styles.cardTitle}>{teamBName} Score: {teamBScore}</Typography>
-              <Button variant="outlined" color="primary" onClick={() => setTeamBScore(teamBScore + 1)} className={styles.button}>
-                +
-              </Button>
-              <Button 
-                variant="outlined" 
-                color="primary" 
-                onClick={() => setTeamBScore(teamBScore - 1)} 
-                disabled={teamBScore === 0} 
-                className={`${styles.button} ${styles.buttonPrimary}`}
-              >
-                -
-              </Button>
-              <Typography variant="h5" className={styles.cardTitle}>{teamBName} Fouls: {teamBFouls}</Typography>
-              <Button variant="outlined" color="error" onClick={() => setTeamBFouls(teamBFouls + 1)} className={`${styles.button} ${styles.buttonError}`}>
-                Foul
-              </Button>
-              <Button 
-                variant="outlined" 
-                color="error" 
-                onClick={() => setTeamBFouls(teamBFouls - 1)} 
-                disabled={teamBFouls === 0} 
-                className={`${styles.button} ${styles.buttonError}`}
-              >
-                Undo Foul
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid2>
-      </Grid2>
-      
-      <Grid2 container spacing={5} className={styles.gridItem}>
-        {/* Quarter Toggle Button Group */}
-        <Grid2 size={3}>
-          <ToggleButtonGroup
-            value={selectedQuarter}
-            exclusive
-            onChange={handleQuarterChange}
-            fullWidth
-          >
-            <ToggleButton value="Q1">Q1</ToggleButton>
-            <ToggleButton value="Q2">Q2</ToggleButton>
-            <ToggleButton value="Q3">Q3</ToggleButton>
-            <ToggleButton value="Q4">Q4</ToggleButton>
-          </ToggleButtonGroup>
-        </Grid2>
-
-        {/* Timer and Start/Stop Buttons */}
-        <Grid2 size={4}>
-          <Typography variant="h4" component="h2" gutterBottom className={styles.timerSection}>
-            Timer: {formatTime(timer)}
-          </Typography>
-          <Button variant="outlined" color="primary" onClick={handleStartStop} fullWidth>
-            {isTimerRunning ? 'Stop' : 'Start'}
-          </Button>
-          <Button variant="outlined" color="error" onClick={handleReset} fullWidth sx={{ mt: 2 }}>
-            Reset
-          </Button>
-        </Grid2>
-
-        {/* Reset Scores and Fouls Button */}
-        <Grid2 size={4} className={styles.gridItem}>
-          <Button 
-            variant="outlined" 
-            color="error" 
-            onClick={handleResetScores} 
-            fullWidth
-            className={styles.buttonError}
-          >
-            Reset Scores and Fouls
-          </Button>
         </Grid2>
       </Grid2>
     </div>
