@@ -1,8 +1,10 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 import { useScore } from '../context/StoreContext';
-import { Button, Card, CardContent, TextField, Typography, ToggleButton, ToggleButtonGroup, Grid2} from '@mui/material';
-import styles from '../styles/Home.module.css'
+import { Button, Card, CardContent, Typography, ToggleButton, ToggleButtonGroup, Grid2, TextField } from '@mui/material';
+import styles from '../styles/Home.module.css';
+
 const Home = () => {
   const { 
     teamAScore, 
@@ -13,6 +15,10 @@ const Home = () => {
     setTeamAName, 
     teamBName, 
     setTeamBName, 
+    teamALogo, 
+    setTeamALogo,
+    teamBLogo, 
+    setTeamBLogo, 
     teamAFouls, 
     setTeamAFouls, 
     teamBFouls, 
@@ -60,12 +66,32 @@ const Home = () => {
     setCurrentTime(formatTime(timer));
   }, [timer, setCurrentTime]);
 
-  const handleTeamANameChange = (e) => {
-    setTeamAName(e.target.value);
-  };
+  const teamData = [
+    { name: "EST", logo: "/images/team-logos/est.png" },
+    { name: "JAF", logo: "/images/team-logos/jaf.png" },
+    { name: "KEL", logo: "/images/team-logos/kel.png" },
+    { name: "RAJ", logo: "/images/team-logos/raj.png" },
+    { name: "RUH", logo: "/images/team-logos/ruh.png" },
+    { name: "SAB", logo: "/images/team-logos/sab.png" },
+    { name: "SEU", logo: "/images/team-logos/seu.png" },
+    { name: "SJP", logo: "/images/team-logos/sjp.png" },
+    { name: "UOC", logo: "/images/team-logos/uoc.png" },
+    { name: "UOM", logo: "/images/team-logos/uom.png" },
+    { name: "UOP", logo: "/images/team-logos/uop.png" },
+    { name: "UVA", logo: "/images/team-logos/uva.png" },
+    { name: "WAY", logo: "/images/team-logos/way.png" },
+    { name: "VAV", logo: "/images/team-logos/vav.png" }
+  ];
 
-  const handleTeamBNameChange = (e) => {
-    setTeamBName(e.target.value);
+  const handleTeamSelect = (teamIndex, isTeamA) => {
+    const team = teamData[teamIndex];
+    if (isTeamA) {
+      setTeamAName(team.name);
+      setTeamALogo(team.logo);
+    } else {
+      setTeamBName(team.name);
+      setTeamBLogo(team.logo);
+    }
   };
 
   const handleRoundChange = (e) => {
@@ -117,18 +143,38 @@ const Home = () => {
         </Grid2>
       </Grid2>
       
-      {/* Team A and Team B Cards */}
+      {/* Team Selection for Team A */}
+      <Grid2 container spacing={2} className={styles.gridItem}>
+        {teamData.map((team, index) => (
+          <Grid2 key={index} item xs={3}>
+            <Button 
+              variant="outlined" 
+              fullWidth
+              onClick={() => handleTeamSelect(index, true)}>
+              {team.name}
+            </Button>
+          </Grid2>
+        ))}
+      </Grid2>
+
+      {/* Team Selection for Team B */}
+      <Grid2 container spacing={2} className={styles.gridItem}>
+        {teamData.map((team, index) => (
+          <Grid2 key={index} item xs={3}>
+            <Button 
+              variant="outlined" 
+              fullWidth
+              onClick={() => handleTeamSelect(index, false)}>
+              {team.name}
+            </Button>
+          </Grid2>
+        ))}
+      </Grid2>
+      
       <Grid2 container spacing={5} className={styles.gridItem}>
         <Grid2 size={6}>
           <Card className={styles.card}>
             <CardContent>
-              <TextField
-                label="Team A Name"
-                value={teamAName}
-                onChange={handleTeamANameChange}
-                fullWidth
-                margin="normal"
-              />
               <Typography variant="h5" className={styles.cardTitle}>{teamAName} Score: {teamAScore}</Typography>
               <Button variant="outlined" color="primary" onClick={() => setTeamAScore(teamAScore + 1)} className={styles.button}>
                 +
@@ -162,13 +208,6 @@ const Home = () => {
         <Grid2 size={6}>
           <Card className={styles.card}>
             <CardContent>
-              <TextField
-                label="Team B Name"
-                value={teamBName}
-                onChange={handleTeamBNameChange}
-                fullWidth
-                margin="normal"
-              />
               <Typography variant="h5" className={styles.cardTitle}>{teamBName} Score: {teamBScore}</Typography>
               <Button variant="outlined" color="primary" onClick={() => setTeamBScore(teamBScore + 1)} className={styles.button}>
                 +
