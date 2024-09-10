@@ -6,66 +6,64 @@ import { Button, Card, CardContent, Typography, ToggleButton, ToggleButtonGroup,
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
+  // Destructure and import state and functions from ScoreContext
   const { 
-    teamAScore, 
-    setTeamAScore, 
-    teamBScore, 
-    setTeamBScore, 
-    teamAName, 
-    setTeamAName, 
-    teamBName, 
-    setTeamBName, 
-    teamALogo, 
-    setTeamALogo,
-    teamBLogo, 
-    setTeamBLogo, 
-    teamAFouls, 
-    setTeamAFouls, 
-    teamBFouls, 
-    setTeamBFouls, 
-    setCurrentQuarter, 
-    setCurrentTime,
-    round,
-    setRound
+    teamAScore, setTeamAScore, 
+    teamBScore, setTeamBScore, 
+    teamAName, setTeamAName, 
+    teamBName, setTeamBName, 
+    teamALogo, setTeamALogo, 
+    teamBLogo, setTeamBLogo, 
+    teamAFouls, setTeamAFouls, 
+    teamBFouls, setTeamBFouls, 
+    setCurrentQuarter, setCurrentTime,
+    round, setRound
   } = useScore();
 
+  // Local state for the timer and selected quarter
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timer, setTimer] = useState(0); // Timer in seconds
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
 
+  // Effect to handle the timer functionality
   useEffect(() => {
     let interval;
 
     if (isTimerRunning) {
       interval = setInterval(() => {
         setTimer(prev => prev + 1);
-      }, 1000);
+      }, 1000); // Increase timer every second
     } else if (!isTimerRunning && timer !== 0) {
-      clearInterval(interval);
+      clearInterval(interval); // Clear interval when timer is stopped
     }
 
     return () => clearInterval(interval);
   }, [isTimerRunning, timer]);
 
+  // Start/Stop button handler
   const handleStartStop = () => {
     setIsTimerRunning(prev => !prev);
   };
 
+  // Reset timer button handler
   const handleReset = () => {
     setIsTimerRunning(false);
     setTimer(0);
   };
 
+  // Function to format time from seconds to "mm:ss"
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   };
 
+  // Effect to update current time in ScoreContext
   useEffect(() => {
     setCurrentTime(formatTime(timer));
   }, [timer, setCurrentTime]);
 
+  // Team data with names and logo paths
   const teamData = [
     { name: "EST", logo: "/images/team-logos/est.png" },
     { name: "JAF", logo: "/images/team-logos/jaf.png" },
@@ -83,6 +81,7 @@ const Home = () => {
     { name: "VAV", logo: "/images/team-logos/vav.png" }
   ];
 
+  // Handle team selection and update team name and logo
   const handleTeamSelect = (teamIndex, isTeamA) => {
     const team = teamData[teamIndex];
     if (isTeamA) {
@@ -94,10 +93,12 @@ const Home = () => {
     }
   };
 
+  // Handle round input change
   const handleRoundChange = (e) => {
     setRound(e.target.value);
   };
 
+  // Handle resetting scores and fouls
   const handleResetScores = () => {
     setTeamAScore(0);
     setTeamBScore(0);
@@ -105,6 +106,7 @@ const Home = () => {
     setTeamBFouls(0);
   };
 
+  // Handle quarter selection
   const handleQuarterChange = (event, newQuarter) => {
     if (newQuarter !== null) {
       setSelectedQuarter(newQuarter);
@@ -250,47 +252,47 @@ const Home = () => {
       </Grid2>
       
       <Grid2 container spacing={5} className={styles.gridItem}>
-      {/* Quarter Toggle Button Group */}
-      <Grid2 size={3}>
-        <ToggleButtonGroup
-          value={selectedQuarter}
-          exclusive
-          onChange={handleQuarterChange}
-          fullWidth
-        >
-          <ToggleButton value="Q1">Q1</ToggleButton>
-          <ToggleButton value="Q2">Q2</ToggleButton>
-          <ToggleButton value="Q3">Q3</ToggleButton>
-          <ToggleButton value="Q4">Q4</ToggleButton>
-        </ToggleButtonGroup>
-      </Grid2>
+        {/* Quarter Toggle Button Group */}
+        <Grid2 size={3}>
+          <ToggleButtonGroup
+            value={selectedQuarter}
+            exclusive
+            onChange={handleQuarterChange}
+            fullWidth
+          >
+            <ToggleButton value="Q1">Q1</ToggleButton>
+            <ToggleButton value="Q2">Q2</ToggleButton>
+            <ToggleButton value="Q3">Q3</ToggleButton>
+            <ToggleButton value="Q4">Q4</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid2>
 
-      {/* Timer and Start/Stop Buttons */}
-      <Grid2 size={4}>
-        <Typography variant="h4" component="h2" gutterBottom className={styles.timerSection}>
-          Timer: {formatTime(timer)}
-        </Typography>
-        <Button variant="outlined" color="primary" onClick={handleStartStop} fullWidth>
-          {isTimerRunning ? 'Stop' : 'Start'}
-        </Button>
-        <Button variant="outlined" color="error" onClick={handleReset} fullWidth sx={{ mt: 2 }}>
-          Reset
-        </Button>
-      </Grid2>
+        {/* Timer and Start/Stop Buttons */}
+        <Grid2 size={4}>
+          <Typography variant="h4" component="h2" gutterBottom className={styles.timerSection}>
+            Timer: {formatTime(timer)}
+          </Typography>
+          <Button variant="outlined" color="primary" onClick={handleStartStop} fullWidth>
+            {isTimerRunning ? 'Stop' : 'Start'}
+          </Button>
+          <Button variant="outlined" color="error" onClick={handleReset} fullWidth sx={{ mt: 2 }}>
+            Reset
+          </Button>
+        </Grid2>
 
-      {/* Reset Scores and Fouls Button */}
-      <Grid2 size={4} className={styles.gridItem}>
-        <Button 
-          variant="outlined" 
-          color="error" 
-          onClick={handleResetScores} 
-          fullWidth
-          className={styles.buttonError}
-        >
-          Reset Scores and Fouls
-        </Button>
+        {/* Reset Scores and Fouls Button */}
+        <Grid2 size={4} className={styles.gridItem}>
+          <Button 
+            variant="outlined" 
+            color="error" 
+            onClick={handleResetScores} 
+            fullWidth
+            className={styles.buttonError}
+          >
+            Reset Scores and Fouls
+          </Button>
+        </Grid2>
       </Grid2>
-    </Grid2>
     </div>
   );  
 };
