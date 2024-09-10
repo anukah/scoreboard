@@ -34,7 +34,7 @@
 
 /* Round Section - Scales based on the container size */
 .roundSection {
-  font-size: calc(2vw + 2vh); /* Scales font size based on viewport dimensions */
+  font-size: calc(3vw + 3vh); /* Scales font size based on viewport dimensions */
   margin-top: 100px;
   margin-bottom: 20px;
 }
