@@ -11,8 +11,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff; /* Changed back to white */
-  color: #000000; /* Changed to black for contrast */
+  background-color: #ffffff;
+  color: #000000;
   height: 100vh;
   width: 100vw;
   padding: 2vh 2vw;
@@ -20,13 +20,12 @@
 }
 
 .roundSection {
-  font-size: 8vmin;
-  margin-bottom: 2vh;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Adjusted for visibility on white */
+  font-size: 10vmin;
+  margin-bottom: 1vh;
 }
 
 .boxedSection {
-  border: 3px solid #000000; /* Changed to black */
+  border: 3px solid #000000;
   border-radius: 10px;
   padding: 2vh 2vw;
   width: 95%;
@@ -34,7 +33,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: rgba(240, 240, 240, 0.5); /* Light gray semi-transparent background */
+  background-color: rgba(240, 240, 240, 0.5);
 }
 
 .teamsContainer {
@@ -58,7 +57,7 @@
   background-color: #ffffff;
   border-radius: 50%;
   padding: 1vmin;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .teamLogo {
@@ -97,7 +96,7 @@
   border: 3px solid #ff0000;
   padding: 1vh 2vw;
   margin-bottom: 2vh;
-  background-color: rgba(255, 0, 0, 0.1); /* Lighter red background */
+  background-color: rgba(255, 0, 0, 0.1);
 }
 
 .timerSection h3 {

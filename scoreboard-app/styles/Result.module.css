@@ -62,7 +62,7 @@
 }
 
 .scores {
-  font-size: 12vmin;
+  font-size: 12.5vmin;
   color: #000000; /* Black text color for scores */
   margin-top: 2rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -104,7 +104,7 @@
   }
 
   .scores {
-    font-size: 16vmin;
+    font-size: 12.5vmin;
   }
 
   .drawLogos .teamLogo {

@@ -29,7 +29,7 @@ const Result = () => {
   return (
     <div className={styles.container}>
       <div className={styles.resultSection}>
-        <h2 className={styles.headingSecondary}>{winner.name} Wins!</h2>
+        <h2 className={styles.headingSecondary}>{winner.name} Won!</h2>
         <img src={winner.logo} alt={`${winner.name} Logo`} className={styles.teamLogo} />
         <h3 className={styles.scores}>
           {teamAScore} - {teamBScore}

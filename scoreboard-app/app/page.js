@@ -1,8 +1,7 @@
 "use client";
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useScore } from '../context/StoreContext';
-import { Button, Typography, ToggleButton, ToggleButtonGroup, Grid2, TextField } from '@mui/material';
+import { Button, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 const teamData = [
   { name: "EST", logo: "/images/team-logos/est.png" },
@@ -23,16 +22,11 @@ const teamData = [
 
 const Home = () => {
   const { 
-    teamAScore, updateTeamAScore,
-    teamBScore, updateTeamBScore,
-    teamAName, updateTeamAName,
-    teamBName, updateTeamBName,
-    teamALogo, updateTeamALogo,
-    teamBLogo, updateTeamBLogo,
-    teamAFouls, updateTeamAFouls,
-    teamBFouls, updateTeamBFouls,
-    updateCurrentQuarter, updateCurrentTime,
-    currentRound, updateCurrentRound,
+    teamAScore, updateTeamAScore, teamBScore, updateTeamBScore,
+    teamAName, updateTeamAName, teamBName, updateTeamBName,
+    teamALogo, updateTeamALogo, teamBLogo, updateTeamBLogo,
+    teamAFouls, updateTeamAFouls, teamBFouls, updateTeamBFouls,
+    updateCurrentQuarter, updateCurrentTime, currentRound, updateCurrentRound,
     endMatch, resetMatch
   } = useScore();
 
@@ -64,11 +58,6 @@ const Home = () => {
     setTimer(0);
   };
 
-  const handleEndMatch = () => {
-    endMatch();
-    setIsTimerRunning(false);
-  };
-
   const handleTeamSelect = useCallback((teamIndex, isTeamA) => {
     const team = teamData[teamIndex];
     if (isTeamA) {
@@ -81,13 +70,6 @@ const Home = () => {
   }, [updateTeamAName, updateTeamALogo, updateTeamBName, updateTeamBLogo]);
 
   const handleRoundChange = (e) => updateCurrentRound(e.target.value);
-
-  const handleResetScores = () => {
-    updateTeamAScore(0);
-    updateTeamBScore(0);
-    updateTeamAFouls(0);
-    updateTeamBFouls(0);
-  };
 
   const handleQuarterChange = (event, newQuarter) => {
     if (newQuarter !== null) {
@@ -109,141 +91,160 @@ const Home = () => {
   }, [updateTeamAFouls, updateTeamBFouls, teamAFouls, teamBFouls]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 min-h-screen bg-[#d9d4d8]">
-      <Grid2 container spacing={2} alignItems="center" justifyContent="center">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#d9d4d8] p-2">
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-4">
+        <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">Scoreboard Controls</h1>
         
-        <Grid2 size={12} className="text-center mb-4 border border-gray-300 rounded-lg p-3 bg-white">
-          <Typography variant="h4" component="h1" className="font-bold text-2xl text-gray-800">
-            Scoreboard Controls
-          </Typography>
-        </Grid2>
-  
-        <Grid2 size={12} className="mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <TextField
-            margin="dense"
             fullWidth
             label="Round"
             value={currentRound}
             onChange={handleRoundChange}
-            className="bg-white border border-gray-300 rounded-lg"
-            InputProps={{
-              className: "text-gray-800 text-sm"
-            }}
+            variant="outlined"
+            size="small"
+            className="bg-white"
           />
-        </Grid2>
-  
-        {['A', 'B'].map((teamLetter) => (
-          <Grid2 container spacing={1} key={`team-${teamLetter}`} className="mb-3 border border-gray-300 rounded-lg p-2 bg-white">
-            <Grid2 item xs={12} className="text-center">
-              <Typography variant="h6" className="font-semibold text-lg text-gray-800">
-                Team {teamLetter}:
-              </Typography>
-            </Grid2>
-            <Grid2 container spacing={1} item xs={12} justifyContent="center">
-              {teamData.map((team, index) => (
-                <Grid2 key={index} item xs={6} sm={3} className="flex justify-center">
-                  <ToggleButton
-                    value={team.name}
-                    selected={teamLetter === 'A' ? teamAName === team.name : teamBName === team.name}
-                    onChange={() => handleTeamSelect(index, teamLetter === 'A')}
-                    className={`py-1 text-xs w-full border border-gray-300 rounded-lg hover:bg-[#b24230] hover:text-white ${
-                      teamLetter === 'A' && teamAName === team.name ? 'bg-[#b24230] text-white' : 
-                      teamLetter === 'B' && teamBName === team.name ? 'bg-[#b24230] text-white' : 
-                      'bg-white text-gray-800'
-                    }`}
-                  >
-                    {team.name}
-                  </ToggleButton>
-                </Grid2>
-              ))}
-            </Grid2>
-          </Grid2>
-        ))}
-  
-        {['A', 'B'].map((teamLetter) => {
-          const teamName = teamLetter === 'A' ? teamAName : teamBName;
-          const teamScore = teamLetter === 'A' ? teamAScore : teamBScore;
-          const teamFouls = teamLetter === 'A' ? teamAFouls : teamBFouls;
-  
-          return (
-            <Grid2 item xs={12} md={6} key={`team-${teamLetter}-controls`} className="mb-3 border border-gray-300 rounded-lg p-3 bg-white">
-              <div className="flex flex-col items-center">
-                <Typography variant="h6" className="font-semibold text-lg text-gray-800 mb-1">
-                  {teamName} Score: {teamScore}
-                </Typography>
-                <div className="flex space-x-1 mb-3">
-                  <Button variant="outlined" onClick={() => handleScoreChange(teamLetter, 1)} className="flex-1 py-1 bg-[#b24230] text-white hover:bg-[#541212] text-xs">
-                    +
-                  </Button>
-                  <Button variant="outlined" onClick={() => handleScoreChange(teamLetter, -1)} className="flex-1 py-1 bg-[#b24230] text-white hover:bg-[#541212] text-xs">
-                    -
-                  </Button>
-                </div>
-                <Typography variant="h6" className="font-semibold text-lg text-gray-800 mb-1">
-                  {teamName} Fouls: {teamFouls}
-                </Typography>
-                <div className="flex space-x-1">
-                  <Button variant="outlined" color="error" onClick={() => handleFoulChange(teamLetter, 1)} className="flex-1 py-1 bg-[#541212] text-white hover:bg-[#b24230] text-xs">
-                    Foul
-                  </Button>
-                  <Button variant="outlined" color="error" onClick={() => handleFoulChange(teamLetter, -1)} className="flex-1 py-1 bg-[#541212] text-white hover:bg-[#b24230] text-xs">
-                    Undo Foul
-                  </Button>
-                </div>
-              </div>
-            </Grid2>
-          );
-        })}
-  
-        <Grid2 container spacing={1} className="mt-3 border border-gray-300 rounded-lg p-3 bg-white">
-          <Grid2 size={4} className="mb-3 sm:mb-0">
-            <Typography variant="h6" component="h2" gutterBottom className="font-semibold text-lg text-gray-800 mb-1">
-              Quarter:
-            </Typography>
-            <ToggleButtonGroup value={selectedQuarter} exclusive onChange={handleQuarterChange} fullWidth>
+          
+          <div className="flex items-center justify-center">
+            <ToggleButtonGroup
+              value={selectedQuarter}
+              exclusive
+              onChange={handleQuarterChange}
+              size="small"
+            >
               {['Q1', 'Q2', 'Q3', 'Q4'].map((quarter) => (
                 <ToggleButton
                   key={quarter}
                   value={quarter}
-                  className={`text-gray-800 hover:bg-[#b24230] hover:text-white text-xs ${
-                    selectedQuarter === quarter ? 'bg-yellow-400 text-white' : 'bg-gray-300'
-                  }`}
+                  className={`px-2 py-1 text-xs ${selectedQuarter === quarter ? 'bg-yellow-400 text-white' : 'bg-gray-200'}`}
                 >
                   {quarter}
                 </ToggleButton>
               ))}
             </ToggleButtonGroup>
-          </Grid2>
-  
-          <Grid2 size={4} className="mb-3 sm:mb-0">
-            <div className="text-center">
-              <Typography variant="h6" component="h2" gutterBottom className="font-semibold text-lg text-gray-800 mb-1">
-                Timer: {formatTime(timer)}
-              </Typography>
-              <Button variant="outlined" onClick={handleStartStop} fullWidth className="py-1 bg-[#b24230] text-white hover:bg-[#541212] text-xs">
-                {isTimerRunning ? 'Stop' : 'Start'}
-              </Button>
-              <Button variant="outlined" onClick={handleReset} fullWidth className="py-1 mt-1 bg-[#541212] text-white hover:bg-[#b24230] text-xs">
-                Reset Timer
-              </Button>
+          </div>
+          
+          <div className="flex items-center justify-center space-x-2">
+            <span className="text-xl font-bold">{formatTime(timer)}</span>
+            <Button
+              variant="contained"
+              onClick={handleStartStop}
+              size="small"
+              className={`py-1 px-2 ${isTimerRunning ? 'bg-[#541212]' : 'bg-[#b24230]'}`}
+            >
+              {isTimerRunning ? 'Stop' : 'Start'}
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleReset}
+              size="small"
+              className="py-1 px-2 bg-[#541212]"
+            >
+              Reset
+            </Button>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {['A', 'B'].map((teamLetter) => (
+            <div key={`team-${teamLetter}`} className="bg-white border border-gray-300 rounded-lg p-3">
+              <h2 className="text-lg font-semibold text-center mb-2">
+                Team {teamLetter}: {teamLetter === 'A' ? teamAName : teamBName}
+              </h2>
+              <div className="grid grid-cols-5 gap-1 mb-2">
+                {teamData.map((team, index) => (
+                  <ToggleButton
+                    key={index}
+                    value={team.name}
+                    selected={teamLetter === 'A' ? teamAName === team.name : teamBName === team.name}
+                    onChange={() => handleTeamSelect(index, teamLetter === 'A')}
+                    className={`py-1 text-xs ${teamLetter === 'A' && teamAName === team.name || teamLetter === 'B' && teamBName === team.name ? 'bg-[#b24230] text-white' : 'bg-white text-gray-800 hover:bg-[#b24230] hover:text-white'}`}
+                  >
+                    {team.name}
+                  </ToggleButton>
+                ))}
+              </div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-semibold">Score: {teamLetter === 'A' ? teamAScore : teamBScore}</span>
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleScoreChange(teamLetter, 1)}
+                    size="small"
+                    className="mr-1 bg-[#b24230]"
+                  >
+                    +
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleScoreChange(teamLetter, -1)}
+                    size="small"
+                    className="bg-[#b24230]"
+                  >
+                    -
+                  </Button>
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-semibold">Fouls: {teamLetter === 'A' ? teamAFouls : teamBFouls}</span>
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleFoulChange(teamLetter, 1)}
+                    size="small"
+                    className="mr-1 bg-[#541212]"
+                  >
+                    Foul
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleFoulChange(teamLetter, -1)}
+                    size="small"
+                    className="bg-[#541212]"
+                  >
+                    Undo
+                  </Button>
+                </div>
+              </div>
             </div>
-          </Grid2>
-  
-          <Grid2 size={4}>
-            <Button variant="outlined" onClick={handleResetScores} fullWidth className="py-1 bg-[#541212] text-white hover:bg-[#b24230] text-xs">
-              Reset Scores and Fouls
-            </Button>
-            <Button variant="outlined" color="secondary" onClick={handleEndMatch} fullWidth className="py-1 mt-1 bg-[#e39937] text-white hover:bg-[#b24230] text-xs">
-              End Match
-            </Button>
-            <Button variant="outlined" onClick={resetMatch} fullWidth className="py-1 mt-1 bg-[#b24230] text-white hover:bg-[#541212] text-xs">
-              Reset Match
-            </Button>
-          </Grid2>
-        </Grid2>
-      </Grid2>
+          ))}
+        </div>
+        
+        <div className="flex justify-center space-x-2 mt-4">
+          <Button
+            variant="contained"
+            onClick={() => {
+              updateTeamAScore(0);
+              updateTeamBScore(0);
+              updateTeamAFouls(0);
+              updateTeamBFouls(0);
+            }}
+            size="small"
+            className="bg-[#541212]"
+          >
+            Reset Scores/Fouls
+          </Button>
+          <Button
+            variant="contained"
+            onClick={endMatch}
+            size="small"
+            className="bg-[#e39937]"
+          >
+            End Match
+          </Button>
+          <Button
+            variant="contained"
+            onClick={resetMatch}
+            size="small"
+            className="bg-[#b24230]"
+          >
+            Reset Match
+          </Button>
+        </div>
+      </div>
     </div>
-  );  
+  );
 };
 
 export default Home;
