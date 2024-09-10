@@ -145,6 +145,11 @@ const Home = () => {
       
       {/* Team Selection for Team A */}
       <Grid2 container spacing={2} className={styles.gridItem}>
+        <Grid2 item xs={12}>
+          <Typography variant="h6" align="center">
+            Team A:
+          </Typography>
+        </Grid2>
         {teamData.map((team, index) => (
           <Grid2 key={index} item xs={3}>
             <Button 
@@ -159,6 +164,11 @@ const Home = () => {
 
       {/* Team Selection for Team B */}
       <Grid2 container spacing={2} className={styles.gridItem}>
+        <Grid2 item xs={12}>
+          <Typography variant="h6" align="center">
+            Team B:
+          </Typography>
+        </Grid2>
         {teamData.map((team, index) => (
           <Grid2 key={index} item xs={3}>
             <Button 
