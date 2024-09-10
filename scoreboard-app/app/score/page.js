@@ -63,7 +63,7 @@ const Score = () => {
         setLocalTeamALogo(event.newValue || "/images/team-logos/uop.png"); // Update logo from storage
       }
       if (event.key === 'teamBLogo') {
-        setLocalTeamBLogo(event.newValue || "/images/team-logos/uom.png"); // Update logo from storage
+        setLocalTeamBLogo(event.newValue || "/images/team-logos/uop.png"); // Update logo from storage
       }
       if (event.key === 'teamAFouls') {
         setLocalTeamAFouls(parseInt(event.newValue, 10) || 0);

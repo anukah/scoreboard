@@ -11,7 +11,7 @@ export const ScoreProvider = ({ children }) => {
   const [teamAName, setTeamAName] = useState("Team A");
   const [teamBName, setTeamBName] = useState("Team B");
   const [teamALogo, setTeamALogo] = useState("/images/team-logos/uop.png"); // Default logo path
-  const [teamBLogo, setTeamBLogo] = useState("/images/team-logos/uom.png"); // Default logo path
+  const [teamBLogo, setTeamBLogo] = useState("/images/team-logos/uop.png"); // Default logo path
   const [teamAFouls, setTeamAFouls] = useState(0);
   const [teamBFouls, setTeamBFouls] = useState(0);
   const [currentQuarter, setCurrentQuarter] = useState("");
