@@ -96,12 +96,12 @@ Ensure you have the following installed:
 
 Start the development server:
 
-    ```bash
-    npm run dev
-    ```
-    
-    or
+```bash
+npm install
+```
 
-    ```bash
-    yarn dev
-    ```
+or
+
+```bash
+yarn install
+```
