@@ -94,14 +94,14 @@ Ensure you have the following installed:
 
 ### Running the App
 
-Start the development server:
+1. Start development server:
 
     ```bash
-    npm install
+    npm run dev
     ```
 
     or
 
     ```bash
-    yarn install
+    yarn run dev
     ```
