@@ -71,7 +71,7 @@ Ensure you have the following installed:
 1. Clone this repository:
 
     ```bash
-    git clone https://github.com/anukah/basketball-scoreboard.git
+    git clone https://github.com/anukah/scoreboard.git
     ```
 
 2. Navigate to the project directory:
@@ -96,12 +96,12 @@ Ensure you have the following installed:
 
 Start the development server:
 
-```bash
-npm install
-```
+    ```bash
+    npm install
+    ```
 
-or
+    or
 
-```bash
-yarn install
-```
+    ```bash
+    yarn install
+    ```
