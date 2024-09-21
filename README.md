@@ -1,4 +1,4 @@
-# Basketball Tournament Scoreboard
+# Tournament Scoreboard for INTER UNIVERSITY GAMES 2024 - Basketball
 
 This project is a web application built with **Next.js** to manage and display the scoreboard for a basketball tournament. The application utilizes React hooks such as **useState**, **useContext**, and **useEffect** for state management, and it uses **localStorage** to persist data across sessions. The app provides a user-friendly interface for managing team scores, tracking fouls, controlling the game timer, and updating match statuses.
 
