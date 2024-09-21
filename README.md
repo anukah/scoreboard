@@ -103,5 +103,5 @@ Ensure you have the following installed:
     or
 
     ```bash
-    yarn run dev
+    yarn dev
     ```
